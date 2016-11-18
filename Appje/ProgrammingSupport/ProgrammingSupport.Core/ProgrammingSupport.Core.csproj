@@ -29,6 +29,7 @@
   <ItemGroup>
     <Compile Include="Business\StackAnswerer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\SkypeViewModel.cs" />
     <Compile Include="ViewModels\AnswerViewModel.cs" />
     <Compile Include="ViewModels\FirstViewModel.cs" />
     <Compile Include="App.cs" />
