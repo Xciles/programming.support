@@ -45,8 +45,8 @@ namespace ProgrammingSupport.Droid.Views
 						_voiceIntent = new Intent(RecognizerIntent.ActionRecognizeSpeech);
 						_voiceIntent.PutExtra(RecognizerIntent.ExtraLanguageModel, RecognizerIntent.LanguageModelFreeForm);
 						_voiceIntent.PutExtra(RecognizerIntent.ExtraPrompt, "Speak now!");
-						_voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 2500);
-						_voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 2500);
+						_voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 3000);
+						_voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 3000);
 						_voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputMinimumLengthMillis, 20000);
 						_voiceIntent.PutExtra(RecognizerIntent.ExtraMaxResults, 1);
 						_voiceIntent.PutExtra(RecognizerIntent.ExtraLanguage, Java.Util.Locale.English);
@@ -104,6 +104,7 @@ namespace ProgrammingSupport.Droid.Views
 				var p = new Dictionary<string, string>();
 				speaker.Speak(toSpeak, QueueMode.Flush, p);
 			}
+			
+		}
 		}
     }
-}
