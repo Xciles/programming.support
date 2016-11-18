@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
+using Programming.Bot.Business;
 using Programming.Bot.Domain;
 
 namespace Programming.Bot.Dialogs
@@ -23,7 +24,7 @@ namespace Programming.Bot.Dialogs
             var message = await argument;
 
 
-            string resultString;
+            string resultString = string.Empty;
 
             QueryResult luisResult = await GetEntityFromLuis(message.Text);
 
@@ -33,7 +34,7 @@ namespace Programming.Bot.Dialogs
                     {
                         if (luisResult.entities.Any())
                         {
-                            resultString = "";
+                            resultString = await StackOverflow.Query(luisResult.entities[0].entity);
                         }
                         break;
                     }

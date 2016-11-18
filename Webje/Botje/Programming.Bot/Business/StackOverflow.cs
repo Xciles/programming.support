@@ -17,7 +17,7 @@ namespace Programming.Bot.Business
         private const string StackOverflowSearchUri = "http://api.stackexchange.com/2.2/search?order=desc&sort=votes&intitle={0}&site=stackoverflow";
         private const string StackOverflowAnswerUri = "http://api.stackexchange.com/2.2/answers/{0}?order=desc&sort=activity&site=stackoverflow&filter=!9YdnSMKKT";
 
-        public static async Task<string> Query(string query)
+        public static async Task<string> Query(string query, bool cleanHtml = false)
         {
             var msg = await HttpClient.GetAsync(string.Format(StackOverflowSearchUri,query));
 
@@ -41,7 +41,7 @@ namespace Programming.Bot.Business
             jsonDataResponse = await msg.Content.ReadAsStringAsync();
             var answerData = JsonConvert.DeserializeObject<AnswerResult>(jsonDataResponse);
 
-            return RemoveHtmlTags(answerData.items[0].body);
+            return cleanHtml ? RemoveHtmlTags(answerData.items[0].body) : answerData.items[0].body;
         }
 
         public static string RemoveHtmlTags(string html)
