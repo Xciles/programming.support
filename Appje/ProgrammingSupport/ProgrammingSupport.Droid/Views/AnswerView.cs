@@ -6,7 +6,7 @@ using Android.Views;
 
 namespace ProgrammingSupport.Droid.Views
 {
-	[Activity(Label = "View for AnswerViewModel", ScreenOrientation = Android.Content.PM.ScreenOrientation.Landscape)]
+	[Activity(Label = "View for AnswerViewModel", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class AnswerView : MvxActivity
     {
 		private WebView _webView;
