@@ -95,6 +95,7 @@
     <AndroidResource Include="Resources\layout\SplashScreen.axml" />
     <AndroidResource Include="Resources\layout\FirstView.axml" />
     <AndroidResource Include="Resources\drawable\splash.png" />
+    <AndroidResource Include="Resources\mipmap-hdpi\bubble.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
