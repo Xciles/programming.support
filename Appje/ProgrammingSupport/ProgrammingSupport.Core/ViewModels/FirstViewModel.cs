@@ -1,4 +1,5 @@
 using MvvmCross.Core.ViewModels;
+using System.Windows.Input;
 
 namespace ProgrammingSupport.Core.ViewModels
 {
@@ -10,6 +11,17 @@ namespace ProgrammingSupport.Core.ViewModels
         { 
             get { return _hello; }
             set { SetProperty (ref _hello, value); }
+        }
+
+        public ICommand GoToAnswerCommand
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    ShowViewModel<AnswerViewModel>();
+                });
+            }
         }
     }
 }
