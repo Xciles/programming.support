@@ -4,8 +4,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <WebView
-        android:id="@+id/webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+  <WebView
+      android:id="@+id/webview"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+  <Button
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    local:MvxBind="Click GoToAnswerCommand"
+/>
 </LinearLayout>
