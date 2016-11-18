@@ -11,6 +11,7 @@ using Android.Speech.Tts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ProgrammingSupport.Core.ViewModels;
 
 namespace ProgrammingSupport.Droid.Views
 {
@@ -24,6 +25,11 @@ namespace ProgrammingSupport.Droid.Views
 		private TextToSpeech speaker;
 		private string toSpeak;
 		private Intent _voiceIntent;
+
+        private FirstViewModel FirstViewModel
+        {
+            get { return (ViewModel as FirstViewModel); }
+        }
 
         protected override void OnCreate(Bundle bundle)
         {
