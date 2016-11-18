@@ -87,11 +87,8 @@
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
     <AndroidResource Include="Resources\layout\AnswerView.axml" />
-<<<<<<< HEAD
     <AndroidResource Include="Resources\layout\QuestionView.axml" />
-=======
     <AndroidResource Include="Resources\layout\SkypeView.axml" />
->>>>>>> origin/master
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
