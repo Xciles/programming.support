@@ -3,14 +3,19 @@ using System.Windows.Input;
 
 namespace ProgrammingSupport.Core.ViewModels
 {
-    public class FirstViewModel 
-        : MvxViewModel
+    public class QuestionViewModel : MvxViewModel
     {
-        private string _hello = "Hello MvvmCross";
-        public string Hello
+		private string _question = string.Empty;
+
+		public QuestionViewModel()
+		{
+			
+		}
+
+        public string Question
         { 
-            get { return _hello; }
-            set { SetProperty (ref _hello, value); }
+            get { return _question; }
+            set { SetProperty (ref _question, value); }
         }
 
         public ICommand GoToAnswerCommand
@@ -19,7 +24,7 @@ namespace ProgrammingSupport.Core.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    ShowViewModel<SkypeViewModel>();
+					ShowViewModel<AnswerViewModel>(new { question = Question});
                 });
             }
         }

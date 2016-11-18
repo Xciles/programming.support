@@ -11,7 +11,7 @@ namespace ProgrammingSupport.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            RegisterAppStart<ViewModels.FirstViewModel>();
+			RegisterAppStart<ViewModels.QuestionViewModel>();
         }
     }
 }
