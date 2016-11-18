@@ -46,7 +46,10 @@ namespace ProgrammingSupport.Droid.Views
 			_webView.Settings.JavaScriptEnabled = true;
 			_webView.SetBackgroundColor(Android.Graphics.Color.Transparent);
 
-			string rec = Android.Content.PM.PackageManager.FeatureMicrophone;
+            //FirstViewModel.GoToAnswerCommand.Execute(null);
+
+
+            string rec = Android.Content.PM.PackageManager.FeatureMicrophone;
 			if (rec != "android.hardware.microphone")
 			{
 				var alert = new AlertDialog.Builder(this);

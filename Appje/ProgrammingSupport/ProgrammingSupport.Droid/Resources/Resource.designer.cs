@@ -135,6 +135,7 @@ namespace ProgrammingSupport.Droid
 			
 			// aapt resource value: 0x7f040002
 			public const int QuestionView = 2130968578;
+			public const int SkypeView = 2130968578;
 			
 			// aapt resource value: 0x7f040003
 			public const int SplashScreen = 2130968579;
