@@ -108,15 +108,6 @@ namespace ProgrammingSupport.Droid
 			// aapt resource value: 0x7f050001
 			public const int MvxBindingTagUnique = 2131034113;
 			
-			// aapt resource value: 0x7f050005
-			public const int bubbleImage = 2131034117;
-			
-			// aapt resource value: 0x7f050004
-			public const int bubbleLayout = 2131034116;
-			
-			// aapt resource value: 0x7f050006
-			public const int bubbleText = 2131034118;
-			
 			// aapt resource value: 0x7f050003
 			public const int clickLayout = 2131034115;
 			

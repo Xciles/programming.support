@@ -12,30 +12,4 @@
         android:layout_height="match_parent"
         android:background="#00FFFFFF"
         android:id="@+id/clickLayout" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:id="@+id/bubbleLayout"
-        android:layout_margin="60dp">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:layout_centerInParent="true"
-            android:src="@mipmap/bubble"
-            android:id="@+id/bubbleImage" />
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="40dp"
-            android:layout_marginLeft="60dp"
-            android:gravity="center"
-            android:textColor="#000000"
-            android:textColorHint="#000000"
-            android:layout_centerInParent="true"
-            android:maxLines="4"
-            android:hint="Please ask your question..."
-            android:id="@+id/bubbleText" />
-    </RelativeLayout>
 </RelativeLayout>
