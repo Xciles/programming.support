@@ -17,5 +17,12 @@ namespace Programming.Web.Controllers
         {
             return await StackOverflow.Query(query.Question);
         }
+
+        [HttpPost("Pizzaaaa")]
+
+        public async Task<PizzaaaResponse> Pizzaaaa([FromBody]PizzaaaRequest query)
+        {
+            return await Task.FromResult(new PizzaaaResponse());
+        }
     }
 }
