@@ -119,7 +119,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Business\StackOverflow.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Dialogs\SupportDialog.cs" />
+    <Compile Include="Domain\Entity.cs" />
+    <Compile Include="Domain\Intent.cs" />
+    <Compile Include="Domain\QueryResult.cs" />
+    <Compile Include="Domain\StackOverflow\AnswerResult.cs" />
+    <Compile Include="Domain\StackOverflow\SearchResults.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
