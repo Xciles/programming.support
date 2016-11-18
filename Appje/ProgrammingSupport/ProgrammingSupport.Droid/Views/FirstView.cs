@@ -10,6 +10,7 @@ using Android.Speech;
 using Android.Speech.Tts;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ProgrammingSupport.Droid.Views
 {
@@ -22,6 +23,7 @@ namespace ProgrammingSupport.Droid.Views
 		private readonly int VOICE = 10;
 		private TextToSpeech speaker;
 		private string toSpeak;
+		private Intent _voiceIntent;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -52,30 +54,32 @@ namespace ProgrammingSupport.Droid.Views
 					if (isRecording)
 					{
 						// create the intent and start the activity
-						var voiceIntent = new Intent(RecognizerIntent.ActionRecognizeSpeech);
-						voiceIntent.PutExtra(RecognizerIntent.ExtraLanguageModel, RecognizerIntent.LanguageModelFreeForm);
+						_voiceIntent = new Intent(RecognizerIntent.ActionRecognizeSpeech);
+						_voiceIntent.PutExtra(RecognizerIntent.ExtraLanguageModel, RecognizerIntent.LanguageModelFreeForm);
 
 						// put a message on the modal dialog
-						voiceIntent.PutExtra(RecognizerIntent.ExtraPrompt, "Speak now!");
+						_voiceIntent.PutExtra(RecognizerIntent.ExtraPrompt, "Speak now!");
 
 						// if there is more then 1.5s of silence, consider the speech over
-						voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 1500);
-						voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 1500);
-						voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputMinimumLengthMillis, 15000);
-						voiceIntent.PutExtra(RecognizerIntent.ExtraMaxResults, 1);
+						_voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputCompleteSilenceLengthMillis, 2500);
+						_voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputPossiblyCompleteSilenceLengthMillis, 2500);
+						_voiceIntent.PutExtra(RecognizerIntent.ExtraSpeechInputMinimumLengthMillis, 20000);
+						_voiceIntent.PutExtra(RecognizerIntent.ExtraMaxResults, 1);
 
 						// you can specify other languages recognised here, for example
 						// voiceIntent.PutExtra(RecognizerIntent.ExtraLanguage, Java.Util.Locale.German);
 						// if you wish it to recognise the default Locale language and German
 						// if you do use another locale, regional dialects may not be recognised very well
 
-						voiceIntent.PutExtra(RecognizerIntent.ExtraLanguage, Java.Util.Locale.Default);
-						StartActivityForResult(voiceIntent, VOICE);
+						_voiceIntent.PutExtra(RecognizerIntent.ExtraLanguage, Java.Util.Locale.English);
+						StartActivityForResult(_voiceIntent, VOICE);
 					}
 				};
         }
 
-		protected override void OnActivityResult(int requestCode, Result resultVal, Intent data)
+		private bool pizza = false;
+
+		protected override async void OnActivityResult(int requestCode, Result resultVal, Intent data)
 		{
 			if (requestCode == VOICE)
 			{
@@ -90,10 +94,34 @@ namespace ProgrammingSupport.Droid.Views
 						if (textInput.Length > 500)
 							textInput = textInput.Substring(0, 500);
 						var ditIsResult = textInput;
-						Speak("I am sorry, I could not find that for you!");
+						if(!pizza)
+						{
+							Speak("I am sorry, I could not find " + ditIsResult + ". Would you like a pizza?");
+							pizza = true;
+							await Task.Delay(5000).ConfigureAwait(false);
+							StartActivityForResult(_voiceIntent, VOICE);
+						}
+						else if(pizza)
+						{
+							if(ditIsResult.ToLower().Contains("yes"))
+							{
+								Speak("I will get you a pepperoni pizza, buddy!");
+								pizza = false;
+							}
+							else if (ditIsResult.ToLower().Contains("no"))
+							{
+								Speak("More for me, asshole!");
+								pizza = false;
+							}
+							else
+							{
+								Speak("Speak up, mumbling idiot!");
+							}
+						}
 					}
 					else
 						Speak("No speech was recognised");
+					isRecording = false;
 				}
 			}
 
@@ -106,8 +134,8 @@ namespace ProgrammingSupport.Droid.Views
 			if (speaker == null)
 			{
 				speaker = new TextToSpeech(this, this);
-				speaker.SetPitch(10f);
-				speaker.SetSpeechRate(2f);
+				speaker.SetPitch(1.5f);
+				speaker.SetSpeechRate(1.5f);
 				speaker.SetLanguage(Java.Util.Locale.English);
 			}
 			else {
