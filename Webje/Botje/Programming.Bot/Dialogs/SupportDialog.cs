@@ -82,9 +82,9 @@ namespace Programming.Bot.Dialogs
                                 msg2.TextFormat = "markdown";
                                 //var converter = new Converter();
                                 //var markdown = converter.Convert(soResult.Body);
-                                var converter = new ReverseMarkdown.Converter();
-                                string markdown = converter.Convert(soResult.Body);
-                                msg2.Text = markdown;
+                                //var converter = new ReverseMarkdown.Converter();
+                                //string markdown = converter.Convert(soResult.Body);
+                                msg2.Text = soResult.Body;
 
                                 await context.PostAsync(msg2);
 

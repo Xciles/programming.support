@@ -21,7 +21,7 @@ namespace Programming.Bot.Business
         private const string StackOverflowSearchUri = "https://api.stackexchange.com/2.2/search?order=desc&sort=votes&tagged={1}&intitle={0}&site=stackoverflow";
         //private const string StackOverflowSearchUri = "http://api.stackexchange.com/2.2/search?order=desc&sort=votes&site=stackoverflow&intitle={0}";
         private const string StackOverflowQuestionUri = "https://api.stackexchange.com/2.2/questions/{0}/answers?order=desc&sort=votes&site=stackoverflow";
-        private const string StackOverflowAnswerUri = "http://api.stackexchange.com/2.2/answers/{0}?order=desc&sort=activity&site=stackoverflow&filter=!9YdnSMKKT";
+        private const string StackOverflowAnswerUri = "http://api.stackexchange.com/2.2/answers/{0}?order=desc&sort=activity&site=stackoverflow&filter=!9YdnSM68f";
 
         public static async Task<SoResult> Query(string query, string tag = "")
         {

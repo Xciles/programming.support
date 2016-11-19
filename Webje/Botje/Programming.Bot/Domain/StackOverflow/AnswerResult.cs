@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace Programming.Bot.Domain.StackOverflow
 {
@@ -23,6 +24,7 @@ namespace Programming.Bot.Domain.StackOverflow
         public int creation_date { get; set; }
         public int answer_id { get; set; }
         public int question_id { get; set; }
+        [JsonProperty("body_markdown")]
         public string body { get; set; }
     }
 }
