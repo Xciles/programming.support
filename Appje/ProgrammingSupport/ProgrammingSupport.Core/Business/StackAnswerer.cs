@@ -24,8 +24,6 @@ namespace ProgrammingSupport.Core.Business
                     var result = await client.PostAsync(_hyperion, contentPost);
                     if (result.IsSuccessStatusCode)
                     {
-                        
-
                         var response = JsonConvert.DeserializeObject<StackResponse>(await result.Content.ReadAsStringAsync());
 
                         if (response.StrippedBody == "NoResults!")
