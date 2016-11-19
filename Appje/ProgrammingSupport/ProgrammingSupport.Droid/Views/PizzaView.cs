@@ -6,8 +6,8 @@ using Android.Views;
 
 namespace ProgrammingSupport.Droid.Views
 {
-	[Activity(Label = "View for AnswerViewModel", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
-    public class AnswerView : MvxActivity
+	[Activity(Label = "View for PizzaViewModel", ScreenOrientation = Android.Content.PM.ScreenOrientation.Landscape)]
+    public class PizzaView : MvxActivity
     {
 		private WebView _webView;
 
@@ -15,7 +15,7 @@ namespace ProgrammingSupport.Droid.Views
         {
 			ActionBar.Hide();
             base.OnCreate(bundle);
-            SetContentView(Resource.Layout.AnswerView);
+            SetContentView(Resource.Layout.PizzaView);
         }
     }
 }

@@ -72,19 +72,27 @@
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\PizzaView.cs" />
     <Compile Include="Views\AnswerView.cs" />
+    <Compile Include="Views\SkypeView.cs" />
     <Compile Include="Views\FirstView.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="DebugTrace.cs" />
+    <Compile Include="Views\QuestionView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
     <AndroidResource Include="Resources\layout\AnswerView.axml" />
+    <AndroidResource Include="Resources\layout\QuestionView.axml" />
+    <AndroidResource Include="Resources\layout\SkypeView.axml" />
+    <AndroidResource Include="Resources\layout\PizzaView.axml" />
+    <AndroidResource Include="Resources\layout\item_hoi.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
