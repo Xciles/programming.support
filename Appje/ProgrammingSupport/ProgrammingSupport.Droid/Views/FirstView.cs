@@ -90,6 +90,7 @@ namespace ProgrammingSupport.Droid.Views
         }
 
 		private bool pizza = false;
+        private bool skype = false;
 
 		protected override async void OnActivityResult(int requestCode, Result resultVal, Intent data)
 		{
@@ -106,8 +107,63 @@ namespace ProgrammingSupport.Droid.Views
 						if (textInput.Length > 500)
 							textInput = textInput.Substring(0, 500);
 						var ditIsResult = textInput;
-						if(!pizza)
+                        if (skype)
+                        {
+                            if (ditIsResult.ToLower().Contains("yes"))
+                            {
+                                Speak("Opening Skype Bot for you.");
+                                skype = false;
+                                (ViewModel as FirstViewModel).GoToAnswerCommand.Execute(null);
+                            }
+                            else if (ditIsResult.ToLower().Contains("no"))
+                            {
+                                Speak("Why did you ask then, you stupid asshole!");
+                                skype = false;
+                                _text.SetImageResource(Resource.Drawable.txtWhyAsk);
+                                _text.Visibility = ViewStates.Visible;
+                            }
+                            else
+                            {
+                                Speak("Speak up, you mumbling idiot!");
+                                _text.SetImageResource(Resource.Drawable.txtSpeakUp);
+                                _text.Visibility = ViewStates.Visible;
+                            }
+                        }
+                        else if (textInput.Contains("Skype") && textInput.Contains("open") || textInput.Contains("bot"))
+                        {
+                            //(ViewModel as QuestionViewModel).Question = textInput;
+                            skype = true;
+                            Speak("Do you want to see our Skype bot?");
+                            _text.SetImageResource(Resource.Drawable.txtSkypeBot);
+                            _text.Visibility = ViewStates.Visible;
+                        }
+                        else if (pizza)
+                        {
+                            if (ditIsResult.ToLower().Contains("yes"))
+                            {
+                                Speak("I will get you a pepperoni pizza, buddy!");
+                                pizza = false;
+                                _text.SetImageResource(Resource.Drawable.txtPizzaYes);
+                                _text.Visibility = ViewStates.Visible;
+                            }
+                            else if (ditIsResult.ToLower().Contains("no"))
+                            {
+                                Speak("More for me, you fat fuck!");
+                                pizza = false;
+                                _text.SetImageResource(Resource.Drawable.txtPizzaNo);
+                                _text.Visibility = ViewStates.Visible;
+                            }
+                            else
+                            {
+                                Speak("Speak up, you mumbling idiot!");
+                                _text.SetImageResource(Resource.Drawable.txtSpeakUp);
+                                _text.Visibility = ViewStates.Visible;
+                            }
+                        }
+                        else
 						{
+                            //Speak("You want to search Stackoverflow for: " + textInput + "?");
+
                             Random rnd = new Random();
                             if (rnd.Next(2) == 0)
                                 _text.SetImageResource(Resource.Drawable.txtImSorry);
@@ -115,33 +171,11 @@ namespace ProgrammingSupport.Droid.Views
                                 _text.SetImageResource(Resource.Drawable.txtPizza);
                             _text.Visibility = ViewStates.Visible;
                             Speak("I am sorry, I could not find " + ditIsResult + ". Would you like a pizza?");
-							pizza = true;
-							await Task.Delay(5000).ConfigureAwait(false);
+                            pizza = true;
+                            await Task.Delay(5000).ConfigureAwait(false);
 							StartActivityForResult(_voiceIntent, VOICE);
 						}
-						else if(pizza)
-						{
-							if(ditIsResult.ToLower().Contains("yes"))
-							{
-								Speak("I will get you a pepperoni pizza, buddy!");
-								pizza = false;
-                                _text.SetImageResource(Resource.Drawable.txtPizzaYes);
-                                _text.Visibility = ViewStates.Visible;
-                            }
-							else if (ditIsResult.ToLower().Contains("no"))
-							{
-								Speak("More for me, you stupid asshole!");
-								pizza = false;
-                                _text.SetImageResource(Resource.Drawable.txtPizzaNo);
-                                _text.Visibility = ViewStates.Visible;
-                            }
-							else
-							{
-								Speak("Speak up, you mumbling idiot!");
-                                _text.SetImageResource(Resource.Drawable.txtSpeakUp);
-                                _text.Visibility = ViewStates.Visible;
-                            }
-						}
+						
 					}
 					else
 						Speak("No speech was recognised");

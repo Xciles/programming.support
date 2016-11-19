@@ -119,6 +119,8 @@
     <AndroidResource Include="Resources\drawable\txtPizzaNo.png" />
     <AndroidResource Include="Resources\drawable\txtPizzaYes.png" />
     <AndroidResource Include="Resources\drawable\txtSpeakUp.png" />
+    <AndroidResource Include="Resources\drawable\txtWhyAsk.png" />
+    <AndroidResource Include="Resources\drawable\txtSkypeBot.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProgrammingSupport.Core\ProgrammingSupport.Core.csproj">
@@ -129,8 +131,6 @@
   <ItemGroup>
     <AndroidAsset Include="Content\southparkidle.gif" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utils\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
