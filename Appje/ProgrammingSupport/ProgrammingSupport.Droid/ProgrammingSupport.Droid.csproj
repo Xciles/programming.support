@@ -80,6 +80,7 @@
     <Compile Include="Setup.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="DebugTrace.cs" />
+    <Compile Include="Views\QuestionView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -88,6 +89,7 @@
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
     <AndroidResource Include="Resources\layout\AnswerView.axml" />
+    <AndroidResource Include="Resources\layout\QuestionView.axml" />
     <AndroidResource Include="Resources\layout\SkypeView.axml" />
     <AndroidResource Include="Resources\layout\PizzaView.axml" />
     <AndroidResource Include="Resources\layout\item_hoi.axml" />

@@ -13,6 +13,11 @@ namespace ProgrammingSupport.Core.ViewModels
         private string _question;
         private string _answer;
 
+		public void Init(string question)
+		{
+			Question = question;
+		}
+
         public string Question
         {
             get { return _question; }
