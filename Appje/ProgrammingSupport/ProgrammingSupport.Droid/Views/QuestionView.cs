@@ -162,17 +162,17 @@ namespace ProgrammingSupport.Droid.Views
                         {
                             if (ditIsResult.Contains("yes"))
                             {
-                                (ViewModel as QuestionViewModel).Question = _question;
-                                stackOverflowFlow = false;
+                                (ViewModel as QuestionViewModel).Question = _question;                                
                             }
                             else if (ditIsResult.Contains("no"))
                             {
                                 Speak("Stay ignorant, you hillbilly!");
                                 pizzaFlow = false;
-                                _text.SetImageResource(Resource.Drawable.txtPizzaNo);
+                                _text.SetImageResource(Resource.Drawable.txtPizza);
                                 _text.Visibility = ViewStates.Visible;
                                 pizzaFlow = false;
                             }
+                            stackOverflowFlow = false;
                         }
                         else if (skypeFlow)
                         {
