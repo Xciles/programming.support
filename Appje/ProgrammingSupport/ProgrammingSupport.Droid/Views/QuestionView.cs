@@ -168,7 +168,7 @@ namespace ProgrammingSupport.Droid.Views
                             {
                                 Speak("Stay ignorant, you hillbilly!");
                                 pizzaFlow = false;
-                                _text.SetImageResource(Resource.Drawable.txtPizza);
+                                _text.SetImageResource(Resource.Drawable.txtIgnorant);
                                 _text.Visibility = ViewStates.Visible;
                                 pizzaFlow = false;
                             }
