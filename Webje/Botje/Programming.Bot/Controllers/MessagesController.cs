@@ -8,6 +8,7 @@ using System.Web.Http.Description;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.FormFlow;
 using Programming.Bot.Dialogs;
 
 namespace Programming.Bot
@@ -23,6 +24,8 @@ namespace Programming.Bot
         {
             if (activity.Type == ActivityTypes.Message)
             {
+                //await Conversation.SendAsync(activity, MakeRootDialog);
+
                 await Conversation.SendAsync(activity, () => new SupportDialog());
             }
             else
@@ -31,6 +34,11 @@ namespace Programming.Bot
             }
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
+        }
+
+        internal static IDialog<PizzaOrder> MakeRootDialog()
+        {
+            return Chain.From(() => FormDialog.FromForm(PizzaOrder.BuildForm));
         }
 
         private Activity HandleSystemMessage(Activity message)

@@ -252,3 +252,5 @@ paket-files/
 *.sln.iml
 /Webje/Botje/Programming.Bot/Web.Release.config
 /Webje/Netje/src/Programming.Web/Properties/PublishProfiles
+/Webje/Botje/Programming.Bot/Web.Debug.config
+/Webje/Botje/Programming.Bot/Web.Debug.config

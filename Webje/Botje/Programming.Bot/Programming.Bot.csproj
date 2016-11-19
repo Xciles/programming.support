@@ -122,6 +122,7 @@
     <Compile Include="Business\Dominos.cs" />
     <Compile Include="Business\StackOverflow.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Dialogs\Pizza.cs" />
     <Compile Include="Dialogs\SupportDialog.cs" />
     <Compile Include="Domain\Dominos\OrderRequest.cs" />
     <Compile Include="Domain\Dominos\OrderResult.cs" />
@@ -150,7 +151,12 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\XkcdLib\Xkcd.csproj">
+      <Project>{16167a38-aa0e-4fff-a696-fa6115e55a5a}</Project>
+      <Name>Xkcd</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
