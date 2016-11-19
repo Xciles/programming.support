@@ -10,7 +10,7 @@ namespace ProgrammingSupport.Droid
         , Icon = "@mipmap/icon"
         , Theme = "@style/Theme.Splash"
         , NoHistory = true
-		, ScreenOrientation = ScreenOrientation.Landscape)]
+		, ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashScreen : MvxSplashScreenActivity
     {
         public SplashScreen()

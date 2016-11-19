@@ -19,7 +19,7 @@ namespace ProgrammingSupport.Core.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    ShowViewModel<AnswerViewModel>();
+                    ShowViewModel<SkypeViewModel>();
                 });
             }
         }

@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
+using Programming.Bot.Business;
 using Programming.Bot.Domain;
 
 namespace Programming.Bot.Dialogs
@@ -13,6 +16,9 @@ namespace Programming.Bot.Dialogs
     public class SupportDialog : IDialog<object>
     {
         private readonly HttpClient _httpClient = new HttpClient();
+        private readonly string[] Greetings = new[] {"Hi", "Hello!", "Hallo", "Konichiwa"};
+        private bool _pizzaFlow = false;
+
         public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
@@ -22,29 +28,88 @@ namespace Programming.Bot.Dialogs
         {
             var message = await argument;
 
-
-            string resultString;
-
-            QueryResult luisResult = await GetEntityFromLuis(message.Text);
-
-            switch (luisResult.topScoringIntent.intent)
+            if (_pizzaFlow)
             {
-                case "StackOverflow":
+                
+                if (message.Text == "abort")
+                {
+                    PromptDialog.Confirm(context, AfterResetAsync, "Are you sure you want to abort ordering?",
+                        "Didn't get that!", promptStyle: PromptStyle.None);
+                }
+                context.Wait(MessageReceivedAsync);
+
+            }
+            else
+
+            {
+
+
+                string resultString = "Sorry, I am not getting you...";
+
+                QueryResult luisResult = await GetEntityFromLuis(message.Text);
+
+                switch (luisResult.topScoringIntent.intent)
+                {
+                    case "Coding":
                     {
                         if (luisResult.entities.Any())
                         {
-                            resultString = "";
+                            var query =
+                                luisResult.entities.Select(x => x.entity)
+                                    .Aggregate((current, next) => current + " " + next);
+
+                            resultString = await StackOverflow.Query(query);
                         }
+                        context.Wait(MessageReceivedAsync);
                         break;
                     }
-                default:
+
+                    case "Greeting":
+                    {
+                        var rand = new Random();
+                        resultString = Greetings[rand.Next(0, Greetings.Length)];
+                        context.Wait(MessageReceivedAsync);
+                        break;
+                    }
+
+                    case "OrderPizza":
+                    {
+                            //await context.PostAsync($"Hmm would you like to order pizza?");
+
+                            _pizzaFlow = true;
+                            PromptDialog.Text(context, Resume, "Hmm would you like to order pizza?", "Didn't get that!");
+                        
+                        break;
+                    }
+
+                    default:
                     {
                         resultString = "Sorry, I am not getting you...";
+                        context.Wait(MessageReceivedAsync);
                         break;
                     }
-                   
+
+                }
+                await context.PostAsync(resultString);
             }
-            await context.PostAsync(resultString);
+        }
+
+
+        private async Task Resume(IDialogContext context, IAwaitable<string> result)
+        {
+            var message = await result;
+            message = message.ToLower();
+
+            if (message == "yes" || message == "yeah")
+            {
+                _pizzaFlow = true;
+                await context.PostAsync($"You have now entered the order pizza flow (type 'abort' to abort!)");
+
+            }
+            else
+                _pizzaFlow = false;
+                await context.PostAsync($"Too bad");
+
             context.Wait(MessageReceivedAsync);
         }
 
@@ -52,9 +117,11 @@ namespace Programming.Bot.Dialogs
         {
             query = Uri.EscapeDataString(query);
             var data = new QueryResult();
+
             //TODO url
-            var requestUri = "https://" + query;
-            //var requestUri = "https://api.projectoxford.ai/luis/v2.0/apps/5c31bde1-79e0-4dbe-b1e7-7b046fc37f13?subscription-key=b118918f818b4cc6acc9e1e87bbdb74b&q=" + query;
+            var requestUri = string.Empty;
+            
+
             var msg = await _httpClient.GetAsync(requestUri);
 
             if (msg.IsSuccessStatusCode)
@@ -62,8 +129,26 @@ namespace Programming.Bot.Dialogs
                 var jsonDataResponse = await msg.Content.ReadAsStringAsync();
                 data = JsonConvert.DeserializeObject<QueryResult>(jsonDataResponse);
             }
-        
+
             return data;
         }
+
+
+
+        public async Task AfterResetAsync(IDialogContext context, IAwaitable<bool> argument)
+        {
+            var confirm = await argument;
+            if (confirm)
+            {
+                _pizzaFlow = false;
+                await context.PostAsync("Aborted!");
+            }
+            else
+            {
+                await context.PostAsync("Did not abort.");
+            }
+            context.Wait(MessageReceivedAsync);
+        }
+
     }
 }

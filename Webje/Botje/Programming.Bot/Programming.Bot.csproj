@@ -119,13 +119,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Business\Dominos.cs" />
     <Compile Include="Business\StackOverflow.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\SupportDialog.cs" />
+    <Compile Include="Domain\Dominos\OrderRequest.cs" />
+    <Compile Include="Domain\Dominos\OrderResult.cs" />
+    <Compile Include="Domain\Dominos\OrderStatusRequest.cs" />
     <Compile Include="Domain\Entity.cs" />
     <Compile Include="Domain\Intent.cs" />
+    <Compile Include="Domain\Dominos\MenuResult.cs" />
+    <Compile Include="Domain\Dominos\OrderStatusResult.cs" />
+    <Compile Include="Domain\Dominos\PizzaResult.cs" />
     <Compile Include="Domain\QueryResult.cs" />
     <Compile Include="Domain\StackOverflow\AnswerResult.cs" />
+    <Compile Include="Domain\StackOverflow\QuestionResult.cs" />
     <Compile Include="Domain\StackOverflow\SearchResults.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -142,6 +150,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -108,8 +108,14 @@ namespace ProgrammingSupport.Droid
 			// aapt resource value: 0x7f050001
 			public const int MvxBindingTagUnique = 2131034113;
 			
+			// aapt resource value: 0x7f050004
+			public const int answerButton = 2131034116;
+			
 			// aapt resource value: 0x7f050003
 			public const int clickLayout = 2131034115;
+			
+			// aapt resource value: 0x7f050005
+			public const int skypeButton = 2131034117;
 			
 			// aapt resource value: 0x7f050002
 			public const int webview = 2131034114;
@@ -134,7 +140,19 @@ namespace ProgrammingSupport.Droid
 			public const int FirstView = 2130968577;
 			
 			// aapt resource value: 0x7f040002
-			public const int SplashScreen = 2130968578;
+			public const int item_hoi = 2130968578;
+			
+			// aapt resource value: 0x7f040003
+			public const int PizzaView = 2130968579;
+			
+			// aapt resource value: 0x7f040004
+			public const int QuestionView = 2130968580;
+			
+			// aapt resource value: 0x7f040005
+			public const int SkypeView = 2130968581;
+			
+			// aapt resource value: 0x7f040006
+			public const int SplashScreen = 2130968582;
 			
 			static Layout()
 			{
