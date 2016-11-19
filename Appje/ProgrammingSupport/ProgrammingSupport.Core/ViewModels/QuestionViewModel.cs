@@ -7,6 +7,8 @@ namespace ProgrammingSupport.Core.ViewModels
     {
 		private string _question = string.Empty;
 
+        public EActionType NextAction { get; set; }
+
 		public QuestionViewModel()
 		{
 			
@@ -15,7 +17,10 @@ namespace ProgrammingSupport.Core.ViewModels
         public string Question
         { 
             get { return _question; }
-            set { SetProperty (ref _question, value); }
+            set
+            {
+                SetProperty (ref _question, value);               
+            }
         }
 
         public ICommand GoToAnswerCommand
@@ -28,5 +33,22 @@ namespace ProgrammingSupport.Core.ViewModels
                 });
             }
         }
+
+        public ICommand GoToSkypeCommand
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    ShowViewModel<SkypeViewModel>(new { question = Question });
+                });
+            }
+        }
+    }
+
+    public enum EActionType
+    {
+        Answer = 0,
+        Skype = 1,
     }
 }

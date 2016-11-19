@@ -4,14 +4,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <EditText
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:textSize="40dp"
-      local:MvxBind="Text Question"/>
-  <TextView
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:textSize="40dp"
-      local:MvxBind="Text Answer"/>
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        local:MvxBind="Text Question" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        local:MvxBind="Text Answer" />
 </LinearLayout>

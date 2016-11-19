@@ -32,5 +32,15 @@
         android:layout_margin="20dp"
         android:text="Search For Answers"
         android:layout_alignParentBottom="true"
+        android:id="@+id/answerButton"
         local:MvxBind="Click GoToAnswerCommand" />
+  <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Check out our Skype Bot"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/skypeButton"
+        android:visibility="invisible"
+        local:MvxBind="Click GoToSkypeCommand" />
 </RelativeLayout>

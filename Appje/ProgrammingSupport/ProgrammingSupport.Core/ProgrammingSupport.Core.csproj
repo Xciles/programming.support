@@ -32,8 +32,7 @@
     <Compile Include="Business\StackAnswerer.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\AnswerViewModel - Copy.cs" />
-    <Compile Include="ViewModels\DominoMenuViewModel.cs" />
+    <Compile Include="ViewModels\PizzaViewModel.cs" />
     <Compile Include="ViewModels\SkypeViewModel.cs" />
     <Compile Include="ViewModels\AnswerViewModel.cs" />
     <Compile Include="ViewModels\FirstViewModel.cs" />

@@ -9,7 +9,7 @@ using Xciles.Uncommon.Net;
 
 namespace ProgrammingSupport.Core.ViewModels
 {
-    public class DominoViewModel : MvxViewModel
+    public class PizzaViewModel : MvxViewModel
     {
         private const string PizzaEndpoint = "https://hackathon-menu.dominos.cloud/Rest/nl/menus/30544/en";
         private IList<Product> _pizzas;
@@ -23,7 +23,7 @@ namespace ProgrammingSupport.Core.ViewModels
             set { _pizzas = value; }
         }
 
-        public DominoViewModel()
+        public PizzaViewModel()
         {
             GetPizzaaass().ConfigureAwait(false);
         }

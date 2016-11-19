@@ -57,7 +57,11 @@ namespace ProgrammingSupport.Droid.Views
 
 		protected override void OnActivityResult(int requestCode, Result resultVal, Intent data)
 		{
-			if (requestCode == VOICE)
+            var skypeButton = FindViewById<Button>(Resource.Id.skypeButton);
+            var answerButton = FindViewById<Button>(Resource.Id.answerButton);
+
+
+            if (requestCode == VOICE)
 			{
 				if (resultVal == Result.Ok)
 				{
@@ -65,12 +69,28 @@ namespace ProgrammingSupport.Droid.Views
 					if (matches.Count != 0)
 					{
 						string textInput = matches[0];
-
 						// limit the output to 500 characters
 						if (textInput.Length > 500)
 							textInput = textInput.Substring(0, 500);
 						(ViewModel as QuestionViewModel).Question = textInput;
-						Speak("You want to search Stackoverflow for: " + textInput + "?");
+
+					    if (textInput.Contains("Skype") && textInput.Contains("open") || textInput.Contains("bot"))
+					    {
+					        (ViewModel as QuestionViewModel).Question = textInput;
+
+					        skypeButton.Visibility = ViewStates.Visible;
+
+					        answerButton.Visibility = ViewStates.Gone;
+
+					        Speak("Do you want to see our Skype bot?");
+                        }
+					    else
+					    {
+                            skypeButton.Visibility = ViewStates.Invisible;
+                            answerButton.Visibility = ViewStates.Visible;
+
+                            Speak("You want to search Stackoverflow for: " + textInput + "?");
+                        }                      
 					}
 					else
 						Speak("No speech was recognised");
@@ -106,5 +126,10 @@ namespace ProgrammingSupport.Droid.Views
 			}
 			
 		}
-		}
+        public override void OnBackPressed()
+        {
+            speaker.Stop();
+            base.OnBackPressed();
+        }
     }
+}

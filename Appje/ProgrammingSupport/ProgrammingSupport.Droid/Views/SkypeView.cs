@@ -14,7 +14,7 @@ using ProgrammingSupport.Core.ViewModels;
 
 namespace ProgrammingSupport.Droid.Views
 {
-	[Activity(Label = "View for SkypeViewModel", ScreenOrientation = Android.Content.PM.ScreenOrientation.Landscape)]
+	[Activity(Label = "View for SkypeViewModel", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class SkypeView : MvxActivity
     {
 		private WebView _webView;
