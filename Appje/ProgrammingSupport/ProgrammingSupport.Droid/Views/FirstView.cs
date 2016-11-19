@@ -48,8 +48,6 @@ namespace ProgrammingSupport.Droid.Views
 			_webView.Settings.JavaScriptEnabled = true;
 			_webView.SetBackgroundColor(Android.Graphics.Color.Transparent);
 
-            //FirstViewModel.GoToAnswerCommand.Execute(null);
-
 
             string rec = Android.Content.PM.PackageManager.FeatureMicrophone;
 			if (rec != "android.hardware.microphone")
@@ -107,6 +105,7 @@ namespace ProgrammingSupport.Droid.Views
 						if (textInput.Length > 500)
 							textInput = textInput.Substring(0, 500);
 						var ditIsResult = textInput;
+
                         if (skype)
                         {
                             if (ditIsResult.ToLower().Contains("yes"))
@@ -129,6 +128,7 @@ namespace ProgrammingSupport.Droid.Views
                                 _text.Visibility = ViewStates.Visible;
                             }
                         }
+
                         else if (textInput.Contains("Skype") && textInput.Contains("open") || textInput.Contains("bot"))
                         {
                             //(ViewModel as QuestionViewModel).Question = textInput;
@@ -137,6 +137,7 @@ namespace ProgrammingSupport.Droid.Views
                             _text.SetImageResource(Resource.Drawable.txtSkypeBot);
                             _text.Visibility = ViewStates.Visible;
                         }
+
                         else if (pizza)
                         {
                             if (ditIsResult.ToLower().Contains("yes"))
@@ -202,7 +203,13 @@ namespace ProgrammingSupport.Droid.Views
 			}
 		}
 
-		void TextToSpeech.IOnInitListener.OnInit(OperationResult status)
+        public override void OnBackPressed()
+        {
+            speaker?.Stop();
+            base.OnBackPressed();
+        }
+
+        void TextToSpeech.IOnInitListener.OnInit(OperationResult status)
 		{
 			if (status.Equals(OperationResult.Success))
 			{
