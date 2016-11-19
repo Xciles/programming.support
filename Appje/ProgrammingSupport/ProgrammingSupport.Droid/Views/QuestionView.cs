@@ -180,7 +180,7 @@ namespace ProgrammingSupport.Droid.Views
                             {
                                 Speak("Opening Skype Bot for you.");
                                 skypeFlow = false;
-                                (ViewModel as FirstViewModel).GoToAnswerCommand.Execute(null);
+                                (ViewModel as QuestionViewModel).GoToSkypeCommand.Execute(null);
                                 skypeFlow = false;
                             }
                             else if (ditIsResult.Contains("no"))
@@ -210,7 +210,7 @@ namespace ProgrammingSupport.Droid.Views
                             }
                             else if (ditIsResult.Contains("no"))
                             {
-                                Speak("More for me, you fat fuck!");
+                                Speak("More for me, you fat duck!");
                                 pizzaFlow = false;
                                 _text.SetImageResource(Resource.Drawable.txtPizzaNo);
                                 _text.Visibility = ViewStates.Visible;
@@ -223,7 +223,7 @@ namespace ProgrammingSupport.Droid.Views
                                 _text.Visibility = ViewStates.Visible;
                             }
                         }
-                        else if ((ditIsResult.Contains("Skype") && ditIsResult.Contains("open")) || (ditIsResult.Contains("Skype") && ditIsResult.Contains("bot")) || ditIsResult.Contains("Skype"))
+                        else if ((ditIsResult.Contains("skype") && ditIsResult.Contains("open")) || (ditIsResult.Contains("skype") && ditIsResult.Contains("bot")) || ditIsResult.Contains("skype"))
                         {
                             //(ViewModel as QuestionViewModel).Question = textInput;
                             skypeFlow = true;
@@ -238,10 +238,16 @@ namespace ProgrammingSupport.Droid.Views
                             _text.SetImageResource(Resource.Drawable.txtPizza);
                             _text.Visibility = ViewStates.Visible;
                         }
+                        else if (ditIsResult.Contains("alexa") || ditIsResult.Contains("alaxa"))
+                        {
+                            Speak("Bros before hos! That girl never listens to you and just plays Train whenever she wants.");
+                        }
                         else
                         {
                             Speak("You want to search Stackoverflow for: " + textInput + "?");
                             _question = textInput;
+                            _text.SetImageResource(Resource.Drawable.txtSearchSO);
+                            _text.Visibility = ViewStates.Visible;
                             stackOverflowFlow = true;
                         }
 
