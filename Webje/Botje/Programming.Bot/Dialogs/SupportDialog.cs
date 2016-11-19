@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.Serialization.Formatters;
 using System.Threading.Tasks;
+using Html2Markdown;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.Luis.Models;
@@ -60,8 +62,78 @@ namespace Programming.Bot.Dialogs
 
                                 //var query = luisResult.entities.OrderBy(x => x.startIndex).Select(x => x.entity).Aggregate((current, next) => current + " " + next);
 
-                                resultString = await StackOverflow.Query(query, tag);
-                                await context.PostAsync(resultString);
+
+                                //msg.Text = soResult.Body;
+                                //msg.Attachments = new List<Attachment>()
+                                //{
+                                //    new Attachment()
+                                //    {
+                                //        ContentType = "application/vnd.microsoft.card.thumbnail",
+                                //        Name = soResult.Title,
+                                //        Content = "Please visit my site.",
+                                //        ContentUrl = soResult.Link,
+
+                                //    }
+                                //};
+
+                                var soResult = await StackOverflow.Query(query, tag);
+                                var msg2 = context.MakeMessage();
+                                msg2.Type = "message";
+                                msg2.TextFormat = "markdown";
+                                //var converter = new Converter();
+                                //var markdown = converter.Convert(soResult.Body);
+                                //var converter = new ReverseMarkdown.Converter();
+                                //string markdown = converter.Convert(soResult.Body);
+                                msg2.Text = soResult.Body;
+
+                                await context.PostAsync(msg2);
+
+                                var msg = context.MakeMessage();
+                                msg.Type = "message";
+                                msg.Attachments = new List<Attachment>();
+                                List<CardImage> cardImages = new List<CardImage>();
+                                cardImages.Add(new CardImage(url: "https://cdn.sstatic.net/Sites/stackoverflow/img/apple-touch-icon@2.png?v=73d79a89bded&a"));
+                                List<CardAction> cardButtons = new List<CardAction>();
+                                CardAction plButton = new CardAction()
+                                {
+                                    Value = soResult.Link,
+                                    Type = "openUrl",
+                                    Title = soResult.Title
+                                };
+                                cardButtons.Add(plButton);
+                                ThumbnailCard plCard = new ThumbnailCard()
+                                {
+                                    Title = soResult.Title,
+                                    Subtitle = "Please click me for more information!",
+                                    Images = cardImages,
+                                    Buttons = cardButtons
+                                };
+                                Attachment plAttachment = plCard.ToAttachment();
+                                msg.Attachments.Add(plAttachment);
+
+                                //  "attachments": [
+                                //  {
+                                //    "contentType": "application/vnd.microsoft.card.thumbnail",
+                                //    "content": {
+                                //      "title": "I'm a thumbnail card",
+                                //      "subtitle": "Please visit my site.",
+                                //      "images": [
+                                //        {
+                                //          "url": "https://mydeploy.azurewebsites.net/matsu.jpg"
+                                //        }
+                                //      ],
+                                //      "buttons": [
+                                //        {
+                                //          "type": "openUrl",
+                                //          "title": "Go to my site",
+                                //          "value": "https://blogs.msdn.microsoft.com/tsmatsuz"
+                                //        }
+                                //      ]
+                                //    }
+                                //  }
+                                //]
+
+                                await context.PostAsync(msg);
                             }
                             context.Wait(MessageReceivedAsync);
                             break;

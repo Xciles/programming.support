@@ -21,13 +21,17 @@ namespace Programming.Bot.Business
         private const string StackOverflowSearchUri = "https://api.stackexchange.com/2.2/search?order=desc&sort=votes&tagged={1}&intitle={0}&site=stackoverflow";
         //private const string StackOverflowSearchUri = "http://api.stackexchange.com/2.2/search?order=desc&sort=votes&site=stackoverflow&intitle={0}";
         private const string StackOverflowQuestionUri = "https://api.stackexchange.com/2.2/questions/{0}/answers?order=desc&sort=votes&site=stackoverflow";
-        private const string StackOverflowAnswerUri = "http://api.stackexchange.com/2.2/answers/{0}?order=desc&sort=activity&site=stackoverflow&filter=!9YdnSMKKT";
+        private const string StackOverflowAnswerUri = "http://api.stackexchange.com/2.2/answers/{0}?order=desc&sort=activity&site=stackoverflow&filter=!9YdnSM68f";
 
-        public static async Task<string> Query(string query, string tag = "", bool cleanHtml = false)
+        public static async Task<SoResult> Query(string query, string tag = "")
         {
+            var result = new SoResult()
+            {
+                Body = "No satisfying answer found"
+            };
+
             query = Uri.EscapeDataString(query);
             tag = Uri.EscapeDataString(tag);
-
 
             var msg = await HttpClient.GetAsync(string.Format(StackOverflowSearchUri, query, tag));
 
@@ -39,7 +43,7 @@ namespace Programming.Bot.Business
             var jsonDataResponse = await msg.Content.ReadAsStringAsync();
             var data = JsonConvert.DeserializeObject<SearchResults>(jsonDataResponse);
 
-            if (data.items == null || !data.items.Any()) return "No satisfying answer found";
+            if (data.items == null || !data.items.Any()) return result;
 
             msg = await HttpClient.GetAsync(string.Format(StackOverflowQuestionUri, data.items[0].question_id));
             if (!msg.IsSuccessStatusCode)
@@ -49,7 +53,7 @@ namespace Programming.Bot.Business
             jsonDataResponse = await msg.Content.ReadAsStringAsync();
             var questionData = JsonConvert.DeserializeObject<QuestionResult>(jsonDataResponse);
 
-            if (questionData.items == null || !questionData.items.Any()) return "No satisfying answer found";
+            if (questionData.items == null || !questionData.items.Any()) return result;
 
             var acceptedAnswerId = questionData.items[0].answer_id;
             if (acceptedAnswerId != 0)
@@ -64,9 +68,14 @@ namespace Programming.Bot.Business
                 jsonDataResponse = await msg.Content.ReadAsStringAsync();
                 var answerData = JsonConvert.DeserializeObject<AnswerResult>(jsonDataResponse);
 
-                return cleanHtml ? RemoveHtmlTags(answerData.items[0].body) : answerData.items[0].body;
+                result.Body = answerData.items[0].body;
+                result.Link = $"http://stackoverflow.com/a/{answerData.items[0].answer_id}";
+                //result.Link = $"https://stackoverflow.com/questions/{answerData.items[0].question_id}";
+                result.Title = data.items[0].title;
+
+                return result;
             }
-            return "No satisfying answer found";
+            return result;
         }
 
         public static string RemoveHtmlTags(string html)
