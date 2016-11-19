@@ -18,14 +18,18 @@ namespace Programming.Bot.Business
         {
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
         });
-        private const string StackOverflowSearchUri = "http://api.stackexchange.com/2.2/search?order=desc&sort=votes&site=stackoverflow&intitle={0}";
+        private const string StackOverflowSearchUri = "https://api.stackexchange.com/2.2/search?order=desc&sort=votes&tagged={1}&intitle={0}&site=stackoverflow";
+        //private const string StackOverflowSearchUri = "http://api.stackexchange.com/2.2/search?order=desc&sort=votes&site=stackoverflow&intitle={0}";
         private const string StackOverflowQuestionUri = "https://api.stackexchange.com/2.2/questions/{0}/answers?order=desc&sort=votes&site=stackoverflow";
         private const string StackOverflowAnswerUri = "http://api.stackexchange.com/2.2/answers/{0}?order=desc&sort=activity&site=stackoverflow&filter=!9YdnSMKKT";
 
-        public static async Task<string> Query(string query, bool cleanHtml = false)
+        public static async Task<string> Query(string query, string tag = "", bool cleanHtml = false)
         {
             query = Uri.EscapeDataString(query);
-            var msg = await HttpClient.GetAsync(string.Format(StackOverflowSearchUri,query));
+            tag = Uri.EscapeDataString(tag);
+
+
+            var msg = await HttpClient.GetAsync(string.Format(StackOverflowSearchUri, query, tag));
 
             if (!msg.IsSuccessStatusCode)
             {
@@ -35,7 +39,7 @@ namespace Programming.Bot.Business
             var jsonDataResponse = await msg.Content.ReadAsStringAsync();
             var data = JsonConvert.DeserializeObject<SearchResults>(jsonDataResponse);
 
-            if (data.items == null || data.items.Length <= 0) return "No satisfying answer found";
+            if (data.items == null || !data.items.Any()) return "No satisfying answer found";
 
             msg = await HttpClient.GetAsync(string.Format(StackOverflowQuestionUri, data.items[0].question_id));
             if (!msg.IsSuccessStatusCode)
@@ -45,8 +49,7 @@ namespace Programming.Bot.Business
             jsonDataResponse = await msg.Content.ReadAsStringAsync();
             var questionData = JsonConvert.DeserializeObject<QuestionResult>(jsonDataResponse);
 
-            if (questionData.items == null || questionData.items.Length <= 0) return "No satisfying answer found";
-
+            if (questionData.items == null || !questionData.items.Any()) return "No satisfying answer found";
 
             var acceptedAnswerId = questionData.items[0].answer_id;
             if (acceptedAnswerId != 0)
