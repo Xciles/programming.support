@@ -21,7 +21,7 @@ namespace Xkcd
 
             if (!msg.IsSuccessStatusCode)
             {
-                throw new Exception("");
+                throw new Exception("Xkcd comicId API call failed");
             }
 
             var response = await msg.Content.ReadAsStringAsync();
@@ -33,7 +33,7 @@ namespace Xkcd
 
             if (!msg.IsSuccessStatusCode)
             {
-                throw new Exception("");
+                throw new Exception("Xkcd random API call failed");
             }
 
             var response = await msg.Content.ReadAsStringAsync();
