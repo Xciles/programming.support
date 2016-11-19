@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization.Formatters;
 using System.Threading.Tasks;
+using Html2Markdown;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.Luis.Models;
@@ -76,7 +77,16 @@ namespace Programming.Bot.Dialogs
                                 //};
 
                                 var soResult = await StackOverflow.Query(query, tag);
-                                await context.PostAsync(soResult.Body);
+                                var msg2 = context.MakeMessage();
+                                msg2.Type = "message";
+                                msg2.TextFormat = "markdown";
+                                //var converter = new Converter();
+                                //var markdown = converter.Convert(soResult.Body);
+                                var converter = new ReverseMarkdown.Converter();
+                                string markdown = converter.Convert(soResult.Body);
+                                msg2.Text = markdown;
+
+                                await context.PostAsync(msg2);
 
                                 var msg = context.MakeMessage();
                                 msg.Type = "message";
