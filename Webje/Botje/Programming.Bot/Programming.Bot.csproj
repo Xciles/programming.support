@@ -133,6 +133,7 @@
     <Compile Include="Domain\Dominos\PizzaResult.cs" />
     <Compile Include="Domain\QueryResult.cs" />
     <Compile Include="Domain\StackOverflow\AnswerResult.cs" />
+    <Compile Include="Domain\StackOverflow\QuestionResult.cs" />
     <Compile Include="Domain\StackOverflow\SearchResults.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

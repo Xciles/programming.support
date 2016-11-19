@@ -19,6 +19,7 @@ namespace Programming.Bot.Business
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
         });
         private const string StackOverflowSearchUri = "http://api.stackexchange.com/2.2/search?order=desc&sort=votes&site=stackoverflow&intitle={0}";
+        private const string StackOverflowQuestionUri = "https://api.stackexchange.com/2.2/questions/{0}/answers?order=desc&sort=votes&site=stackoverflow";
         private const string StackOverflowAnswerUri = "http://api.stackexchange.com/2.2/answers/{0}?order=desc&sort=activity&site=stackoverflow&filter=!9YdnSMKKT";
 
         public static async Task<string> Query(string query, bool cleanHtml = false)
@@ -34,19 +35,35 @@ namespace Programming.Bot.Business
             var jsonDataResponse = await msg.Content.ReadAsStringAsync();
             var data = JsonConvert.DeserializeObject<SearchResults>(jsonDataResponse);
 
-            var acceptedAnswerId = data.items[0].accepted_answer_id;
+            if (data.items == null || data.items.Length <= 0) return "No satisfying answer found";
 
-            msg = await HttpClient.GetAsync(string.Format(StackOverflowAnswerUri, acceptedAnswerId));
-
+            msg = await HttpClient.GetAsync(string.Format(StackOverflowQuestionUri, data.items[0].question_id));
             if (!msg.IsSuccessStatusCode)
             {
                 throw new Exception("Stackoverflow answer API call failed");
             }
-
             jsonDataResponse = await msg.Content.ReadAsStringAsync();
-            var answerData = JsonConvert.DeserializeObject<AnswerResult>(jsonDataResponse);
+            var questionData = JsonConvert.DeserializeObject<QuestionResult>(jsonDataResponse);
 
-            return cleanHtml ? RemoveHtmlTags(answerData.items[0].body) : answerData.items[0].body;
+            if (questionData.items == null || questionData.items.Length <= 0) return "No satisfying answer found";
+
+
+            var acceptedAnswerId = questionData.items[0].answer_id;
+            if (acceptedAnswerId != 0)
+            {
+                msg = await HttpClient.GetAsync(string.Format(StackOverflowAnswerUri, acceptedAnswerId));
+
+                if (!msg.IsSuccessStatusCode)
+                {
+                    throw new Exception("Stackoverflow answer API call failed");
+                }
+
+                jsonDataResponse = await msg.Content.ReadAsStringAsync();
+                var answerData = JsonConvert.DeserializeObject<AnswerResult>(jsonDataResponse);
+
+                return cleanHtml ? RemoveHtmlTags(answerData.items[0].body) : answerData.items[0].body;
+            }
+            return "No satisfying answer found";
         }
 
         public static string RemoveHtmlTags(string html)
