@@ -20,6 +20,7 @@ namespace ProgrammingSupport.Droid.Views
     {
 		private WebView _webView;
 		private RelativeLayout _click;
+        private ImageView _text;
 		private bool isRecording = false;
 		private readonly int VOICE = 10;
 		private TextToSpeech speaker;
@@ -39,8 +40,9 @@ namespace ProgrammingSupport.Droid.Views
 
 			_webView = FindViewById<WebView>(Resource.Id.webview);
 			_click = FindViewById<RelativeLayout>(Resource.Id.clickLayout);
+            _text = FindViewById<ImageView>(Resource.Id.txtBubble);
 
-			string fileName = "file:///android_asset/Content/southparkidle.gif";
+            string fileName = "file:///android_asset/Content/southparkidle.gif";
 			_webView.LoadDataWithBaseURL(null, "<html><body style=\"width: 100%; height:100%; margin:0px; padding:0px;\">\n<img style=\"width: 100%; height:100%; margin:0px; padding:0px;\" id=\"selector\" src=\"" + fileName + "\"></body></html>", "text/html", "utf-8", null);
 			//_webView.LoadDataWithBaseURL(null, "<html><body style=\"width: 100%; height:100%; margin:0px; padding:0px;\">\n<img style=\"width: 100%; height:100%; margin:0px; padding:0px;\" id=\"selector\" src=\"https://media.giphy.com/media/1iUlZloL4DiH8HL2/giphy.gif\"></body></html>", "text/html", "utf-8", null);
 			_webView.Settings.JavaScriptEnabled = true;
@@ -59,6 +61,7 @@ namespace ProgrammingSupport.Droid.Views
 			else
 				_click.Click += delegate
 				{
+                    _text.Visibility = ViewStates.Invisible;
 					isRecording = !isRecording;
 					if (isRecording)
 					{
@@ -87,6 +90,7 @@ namespace ProgrammingSupport.Droid.Views
         }
 
 		private bool pizza = false;
+        private bool skype = false;
 
 		protected override async void OnActivityResult(int requestCode, Result resultVal, Intent data)
 		{
@@ -103,30 +107,75 @@ namespace ProgrammingSupport.Droid.Views
 						if (textInput.Length > 500)
 							textInput = textInput.Substring(0, 500);
 						var ditIsResult = textInput;
-						if(!pizza)
+                        if (skype)
+                        {
+                            if (ditIsResult.ToLower().Contains("yes"))
+                            {
+                                Speak("Opening Skype Bot for you.");
+                                skype = false;
+                                (ViewModel as FirstViewModel).GoToAnswerCommand.Execute(null);
+                            }
+                            else if (ditIsResult.ToLower().Contains("no"))
+                            {
+                                Speak("Why did you ask then, you stupid asshole!");
+                                skype = false;
+                                _text.SetImageResource(Resource.Drawable.txtWhyAsk);
+                                _text.Visibility = ViewStates.Visible;
+                            }
+                            else
+                            {
+                                Speak("Speak up, you mumbling idiot!");
+                                _text.SetImageResource(Resource.Drawable.txtSpeakUp);
+                                _text.Visibility = ViewStates.Visible;
+                            }
+                        }
+                        else if (textInput.Contains("Skype") && textInput.Contains("open") || textInput.Contains("bot"))
+                        {
+                            //(ViewModel as QuestionViewModel).Question = textInput;
+                            skype = true;
+                            Speak("Do you want to see our Skype bot?");
+                            _text.SetImageResource(Resource.Drawable.txtSkypeBot);
+                            _text.Visibility = ViewStates.Visible;
+                        }
+                        else if (pizza)
+                        {
+                            if (ditIsResult.ToLower().Contains("yes"))
+                            {
+                                Speak("I will get you a pepperoni pizza, buddy!");
+                                pizza = false;
+                                _text.SetImageResource(Resource.Drawable.txtPizzaYes);
+                                _text.Visibility = ViewStates.Visible;
+                            }
+                            else if (ditIsResult.ToLower().Contains("no"))
+                            {
+                                Speak("More for me, you fat fuck!");
+                                pizza = false;
+                                _text.SetImageResource(Resource.Drawable.txtPizzaNo);
+                                _text.Visibility = ViewStates.Visible;
+                            }
+                            else
+                            {
+                                Speak("Speak up, you mumbling idiot!");
+                                _text.SetImageResource(Resource.Drawable.txtSpeakUp);
+                                _text.Visibility = ViewStates.Visible;
+                            }
+                        }
+                        else
 						{
-							Speak("I am sorry, I could not find " + ditIsResult + ". Would you like a pizza?");
-							pizza = true;
-							await Task.Delay(5000).ConfigureAwait(false);
+                            //Speak("You want to search Stackoverflow for: " + textInput + "?");
+
+                            Random rnd = new Random();
+                            if (rnd.Next(2) == 0)
+                                _text.SetImageResource(Resource.Drawable.txtImSorry);
+                            else
+                                _text.SetImageResource(Resource.Drawable.txtPizza);
+                            _text.Visibility = ViewStates.Visible;
+                            Speak("I am sorry, I could not find " + ditIsResult + ". Would you like a pizza?");
+                            pizza = true;
+                            await Task.Delay(5000).ConfigureAwait(false);
 							StartActivityForResult(_voiceIntent, VOICE);
 						}
-						else if(pizza)
-						{
-							if(ditIsResult.ToLower().Contains("yes"))
-							{
-								Speak("I will get you a pepperoni pizza, buddy!");
-								pizza = false;
-							}
-							else if (ditIsResult.ToLower().Contains("no"))
-							{
-								Speak("More for me, asshole!");
-								pizza = false;
-							}
-							else
-							{
-								Speak("Speak up, mumbling idiot!");
-							}
-						}
+						
 					}
 					else
 						Speak("No speech was recognised");

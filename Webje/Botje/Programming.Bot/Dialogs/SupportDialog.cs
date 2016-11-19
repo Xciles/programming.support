@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Net.Http;
@@ -11,6 +12,7 @@ using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 using Programming.Bot.Business;
 using Programming.Bot.Domain;
+using Xkcd;
 
 namespace Programming.Bot.Dialogs
 {
@@ -71,6 +73,40 @@ namespace Programming.Bot.Dialogs
                             context.Wait(MessageReceivedAsync);
                             break;
                         }
+                    {
+                        var rand = new Random();
+                        resultString = Greetings[rand.Next(0, Greetings.Length)];
+                        context.Wait(MessageReceivedAsync);
+                        break;
+                    }
+
+                    case "xkcd":
+                    {
+                        var reply = context.MakeMessage();
+                        var imgString = string.Empty;
+                        if (luisResult.entities.Any())
+                        {
+                            imgString = await XkcdLib.GetComic(luisResult.entities[0].entity);
+                        }
+                        else
+                        {
+                           imgString = await XkcdLib.GetRandomComic();
+                        }
+
+                        reply.Attachments = new List<Attachment>
+                        {
+                            new Attachment()
+                            {
+                                ContentUrl = imgString,
+                                ContentType = "image/jpg",
+                                Name = $"{Guid.NewGuid()}.jpg"
+                            }
+                        };
+
+                        await context.PostAsync(reply);
+                        return;
+                    }
+
                     case "OrderPizza":
                         {
                             //await context.PostAsync($"Hmm would you like to order pizza?");

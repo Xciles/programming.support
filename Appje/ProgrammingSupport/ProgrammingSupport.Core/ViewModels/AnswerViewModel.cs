@@ -52,8 +52,10 @@ namespace ProgrammingSupport.Core.ViewModels
             }
         }
 
-        public async Task  GetAnswer(string question)
-        {
+		public async Task GetAnswer(string question)
+		{
+			if (BeaconStats.ProximityToClosestArea == EProximity.OnTop || BeaconStats.ProximityToClosestArea == EProximity.Close || BeaconStats.ProximityToClosestArea == EProximity.Medium)
+				question = question + " " + BeaconStats.ClosestArea.ToString();
             Answer = await StackAnswerer.AnswerMe(question);
         }
 
