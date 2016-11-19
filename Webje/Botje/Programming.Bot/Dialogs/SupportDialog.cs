@@ -55,9 +55,12 @@ namespace Programming.Bot.Dialogs
                         {
                             if (luisResult.entities.Any())
                             {
-                                var query = luisResult.entities.Select(x => x.entity).Aggregate((current, next) => current + " " + next);
+                                var query = luisResult.entities.FirstOrDefault(x => x.type.ToLower().Contains("topic"))?.entity ?? "";
+                                var tag = luisResult.entities.FirstOrDefault(x => x.type.ToLower().Contains("language"))?.entity ?? "";
 
-                                resultString = await StackOverflow.Query(query);
+                                //var query = luisResult.entities.OrderBy(x => x.startIndex).Select(x => x.entity).Aggregate((current, next) => current + " " + next);
+
+                                resultString = await StackOverflow.Query(query, tag);
                                 await context.PostAsync(resultString);
                             }
                             context.Wait(MessageReceivedAsync);
@@ -72,19 +75,19 @@ namespace Programming.Bot.Dialogs
                             break;
                         }
                     case "xkcd":
-                    {
-                        var reply = context.MakeMessage();
-                        var imgString = string.Empty;
-                        if (luisResult.entities.Any())
                         {
-                            imgString = await XkcdLib.GetComic(luisResult.entities[0].entity);
-                        }
-                        else
-                        {
-                           imgString = await XkcdLib.GetRandomComic();
-                        }
+                            var reply = context.MakeMessage();
+                            var imgString = string.Empty;
+                            if (luisResult.entities.Any())
+                            {
+                                imgString = await XkcdLib.GetComic(luisResult.entities[0].entity);
+                            }
+                            else
+                            {
+                                imgString = await XkcdLib.GetRandomComic();
+                            }
 
-                        reply.Attachments = new List<Attachment>
+                            reply.Attachments = new List<Attachment>
                         {
                             new Attachment()
                             {
@@ -94,10 +97,10 @@ namespace Programming.Bot.Dialogs
                             }
                         };
 
-                        await context.PostAsync(reply);
-                        return;
-                    }
-
+                            await context.PostAsync(reply);
+                            context.Wait(MessageReceivedAsync);
+                            break;
+                        }
                     case "OrderPizza":
                         {
                             //await context.PostAsync($"Hmm would you like to order pizza?");
@@ -151,6 +154,8 @@ namespace Programming.Bot.Dialogs
             await context.PostAsync($"Thanks for ordering your pizza!");
             await context.PostAsync($"Your OrderId is {order.OrderId}");
 
+            _pizzaFlow = false;
+            context.Done(result);
         }
 
         private async Task<QueryResult> GetEntityFromLuis(string query)
