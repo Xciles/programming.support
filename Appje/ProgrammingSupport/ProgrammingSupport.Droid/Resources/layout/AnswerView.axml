@@ -2,17 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <EditText
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="40dp"
-        local:MvxBind="Text Question" />
-    <TextView
-        android:layout_width="fill_parent"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        local:MvxBind="Text Answer" />
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:text="je moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moeder"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:singleLine="false"
+                local:MvxBind="Text Question" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:layout_margin="10dp"
+                android:singleLine="false"
+                android:text="je moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moederje moeder"
+                android:textColor="#000000"
+                local:MvxBind="Text Answer" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
