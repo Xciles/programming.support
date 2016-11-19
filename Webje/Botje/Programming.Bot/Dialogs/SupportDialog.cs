@@ -24,8 +24,6 @@ namespace Programming.Bot.Dialogs
         private readonly string[] Greetings = new[] { "Hi", "Hello!", "Hallo", "Konichiwa" };
         private bool _pizzaFlow = false;
 
-
-
         public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
@@ -73,13 +71,6 @@ namespace Programming.Bot.Dialogs
                             context.Wait(MessageReceivedAsync);
                             break;
                         }
-                    {
-                        var rand = new Random();
-                        resultString = Greetings[rand.Next(0, Greetings.Length)];
-                        context.Wait(MessageReceivedAsync);
-                        break;
-                    }
-
                     case "xkcd":
                     {
                         var reply = context.MakeMessage();
