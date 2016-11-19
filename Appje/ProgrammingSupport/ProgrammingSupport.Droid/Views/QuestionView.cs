@@ -9,11 +9,15 @@ using Android.Content;
 using Android.Speech;
 using ProgrammingSupport.Core.ViewModels;
 using System.Collections.Generic;
+using AltBeaconOrg.BoundBeacon;
+using System.Linq;
+using System;
+using ProgrammingSupport.Core;
 
 namespace ProgrammingSupport.Droid.Views
 {
 	[Activity(Label = "View for QuestionViewModel", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
-    public class QuestionView : MvxActivity, TextToSpeech.IOnInitListener
+	public class QuestionView : MvxActivity, TextToSpeech.IOnInitListener, IBeaconConsumer
     {
 		private LinearLayout _click;
 		private bool isRecording = false;
@@ -21,6 +25,16 @@ namespace ProgrammingSupport.Droid.Views
 		private TextToSpeech speaker;
 		private string toSpeak;
 		private Intent _voiceIntent;
+		private readonly RangeNotifier _rangeNotifier;
+		private List<Beacon> _beacons;
+		private BeaconManager _beaconManager;
+		AltBeaconOrg.BoundBeacon.Region _tagRegion, _emptyRegion;
+
+		public QuestionView()
+		{
+			_rangeNotifier = new RangeNotifier();
+			_beacons = new List<Beacon>();
+		}
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -53,6 +67,9 @@ namespace ProgrammingSupport.Droid.Views
 						StartActivityForResult(_voiceIntent, VOICE);
 					}
 				};
+
+			StartBeaconManager();
+
         }
 
 		protected override void OnActivityResult(int requestCode, Result resultVal, Intent data)
@@ -131,5 +148,87 @@ namespace ProgrammingSupport.Droid.Views
             //speaker.Stop();
             base.OnBackPressed();
         }
-    }
+
+		private void RangingBeaconsInRegion(object sender, RangeEventArgs e)
+		{
+			var allBeacons = new List<Beacon>();
+			if (e.Beacons.Count > 0)
+			{
+				foreach (var b in e.Beacons)
+				{
+					allBeacons.Add(b);
+				}
+
+				_beacons = allBeacons.OrderBy(b => b.Distance).ToList();
+
+				double distance = 9999999999d;
+
+				foreach(var beacon in _beacons)
+				{
+					var uuid = beacon.Id1.ToString().ToUpper();
+					var major = beacon.Id2.ToString().ToUpper();
+					var minor = beacon.Id3.ToString().ToUpper();
+					var distanceOfBeacon = beacon.Distance;
+					if (distanceOfBeacon < distance)
+					{
+						distance = distanceOfBeacon;
+						if(minor == "1" && major == "1" && uuid == "EBEFD083-70A2-47C8-9837-E7B5634DF524") // CSharp
+						{
+							BeaconStats.ClosestArea = EArea.CSharp;
+							if (distance < 3)
+								BeaconStats.ProximityToClosestArea = EProximity.OnTop;
+							else if(distance >= 3 && distance < 10)
+								BeaconStats.ProximityToClosestArea = EProximity.Close;
+							else if (distance >= 10 && distance < 20)
+								BeaconStats.ProximityToClosestArea = EProximity.Medium;
+							else if (distance >= 20 && distance < 50)
+								BeaconStats.ProximityToClosestArea = EProximity.Far;
+							else
+								BeaconStats.ProximityToClosestArea = EProximity.Unknown;
+						}
+						else // Java
+						{
+							BeaconStats.ClosestArea = EArea.Java;
+							if (distance < 3)
+								BeaconStats.ProximityToClosestArea = EProximity.OnTop;
+							else if (distance >= 3 && distance < 10)
+								BeaconStats.ProximityToClosestArea = EProximity.Close;
+							else if (distance >= 10 && distance < 20)
+								BeaconStats.ProximityToClosestArea = EProximity.Medium;
+							else if (distance >= 20 && distance < 50)
+								BeaconStats.ProximityToClosestArea = EProximity.Far;
+							else
+								BeaconStats.ProximityToClosestArea = EProximity.Unknown;
+						}
+					}
+				}
+			}
+		}
+
+		private void StartBeaconManager()
+		{
+			_beaconManager = BeaconManager.GetInstanceForApplication(this);
+			var iBeaconParser = new BeaconParser();
+			iBeaconParser.SetBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24");
+			_beaconManager.BeaconParsers.Add(iBeaconParser);
+			_beaconManager.Bind(this);
+			_rangeNotifier.DidRangeBeaconsInRegionComplete += RangingBeaconsInRegion;
+
+			if (_beaconManager.IsBound(this))
+			{
+				_beaconManager.SetBackgroundMode(false);
+			}
+		}
+
+		void IBeaconConsumer.OnBeaconServiceConnect()
+		{
+			_beaconManager.SetForegroundBetweenScanPeriod(1000); 
+
+			_beaconManager.SetRangeNotifier(_rangeNotifier);
+
+			_tagRegion = new AltBeaconOrg.BoundBeacon.Region("Id", Identifier.Parse("EBEFD083-70A2-47C8-9837-E7B5634DF524"), null, null);
+
+			_beaconManager.StartRangingBeaconsInRegion(_tagRegion);
+		}
+	}
 }
