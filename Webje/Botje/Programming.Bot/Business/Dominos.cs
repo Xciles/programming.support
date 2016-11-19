@@ -14,17 +14,17 @@ namespace Programming.Bot.Business
     {
         private static readonly HttpClient HttpClient = new HttpClient();
         private const string PizzaMenuUri = "https://hackathon-menu.dominos.cloud/Rest/nl/menus/30544/en";
-        private const string PizzaDetailsUri ="https://hackathon-menu.dominos.cloud/Rest/nl/menus/30544/products/{0}/en";
+        private const string PizzaDetailsUri = "https://hackathon-menu.dominos.cloud/Rest/nl/menus/30544/products/{0}/en";
         private const string PizzaOrderUri = "https://hackathon.dominos.cloud/order/place";
         private const string PizzaOrderStatusUri = "https://hackathon.dominos.cloud/order/status";
 
         private const string PizzaStoreNumber = "1111";
         private const string PizzaVendorId = "1234";
- 
+
         public static IList<PizzaResult> Pizzases;
 
         private static readonly Task InitTask;
-        
+
         static Dominos()
         {
             InitTask = Init();
@@ -33,8 +33,8 @@ namespace Programming.Bot.Business
         private static async Task Init()
         {
             // init requests
-            
-           await ProcessMenuResult(GetMenu().Result);
+
+            await ProcessMenuResult(GetMenu().Result);
 
         }
 
@@ -49,7 +49,7 @@ namespace Programming.Bot.Business
                     var pizza = await GetPizzaDetails(product.LinkedItem.ItemCode);
                     Pizzases.Add(pizza);
                 }
-                
+
             }
         }
 
@@ -72,7 +72,7 @@ namespace Programming.Bot.Business
 
         private static async Task<PizzaResult> GetPizzaDetails(string pizzacode)
         {
-            var msg = await HttpClient.GetAsync(string.Format(PizzaDetailsUri,pizzacode));
+            var msg = await HttpClient.GetAsync(string.Format(PizzaDetailsUri, pizzacode));
 
             if (!msg.IsSuccessStatusCode)
             {
@@ -86,19 +86,31 @@ namespace Programming.Bot.Business
 
 
 
-        public static async Task<OrderResult> PlaceOrder(bool payedInCash,string name, string phoneNumber, Product2[] products)
+        public static async Task<OrderResult> PlaceOrder(string adress, bool payedInCash, string name, string phoneNumber, Product2[] products)
         {
-            await InitTask;
+            //await InitTask;
 
             OrderRequest order = new OrderRequest()
             {
-                CountryCode = "nl",IsCashPayment = payedInCash,
+                CountryCode = "nl",
+                IsCashPayment = payedInCash,
                 Language = "NL-nl",
                 Name = name,
                 OrderDate = DateTime.Now,
                 StoreNo = PizzaStoreNumber,
                 VendorId = PizzaVendorId,
-                Products = products,
+                Products = new Product2[] {
+                    new Product2()
+                    {
+                        ProductCode ="PPPE",
+                        SizeCode="Pizza.30CM",
+                        Price = "9.45"
+                    }
+                },
+                DeliverTo = new Deliverto()
+                {
+                    StreetName = adress
+                }
             };
 
             var msg = await HttpClient.PostAsJsonAsync(PizzaOrderUri, order);
@@ -116,7 +128,7 @@ namespace Programming.Bot.Business
         public static async Task<OrderStatusResult> GetOrderStatus(string orderstatus)
         {
 
-            var msg = await HttpClient.PostAsJsonAsync(PizzaOrderStatusUri,new OrderStatusRequest() {CountryCode = "nl",VendorId = PizzaVendorId, OrderId = orderstatus});
+            var msg = await HttpClient.PostAsJsonAsync(PizzaOrderStatusUri, new OrderStatusRequest() { CountryCode = "nl", VendorId = PizzaVendorId, OrderId = orderstatus });
 
             if (!msg.IsSuccessStatusCode)
             {

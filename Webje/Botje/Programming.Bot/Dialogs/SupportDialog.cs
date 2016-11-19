@@ -224,7 +224,7 @@ namespace Programming.Bot.Dialogs
             var order = await result;
 
             await context.PostAsync($"Thanks for ordering your pizza!");
-            await context.PostAsync($"Your OrderId is {order.OrderId}");
+            //await context.PostAsync($"Your OrderId is {order.OrderId}");
 
             _pizzaFlow = false;
             context.Done(result);
