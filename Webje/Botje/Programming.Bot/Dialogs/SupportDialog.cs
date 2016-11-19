@@ -14,6 +14,7 @@ namespace Programming.Bot.Dialogs
     public class SupportDialog : IDialog<object>
     {
         private readonly HttpClient _httpClient = new HttpClient();
+        private readonly string[] Greetings = new[] { "Hi", "Hello!", "Hallo", "Konichiwa" };
         public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
@@ -22,15 +23,14 @@ namespace Programming.Bot.Dialogs
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
         {
             var message = await argument;
-
-
-            string resultString = string.Empty;
+            
+            string resultString = "Sorry, I am not getting you...";
 
             QueryResult luisResult = await GetEntityFromLuis(message.Text);
 
             switch (luisResult.topScoringIntent.intent)
             {
-                case "StackOverflow":
+                case "Coding":
                     {
                         if (luisResult.entities.Any())
                         {
@@ -38,6 +38,21 @@ namespace Programming.Bot.Dialogs
                         }
                         break;
                     }
+
+                case "Greeting":
+                    {
+                        var rand = new Random();
+                        resultString = Greetings[rand.Next(0, Greetings.Length)];
+                        break;
+                    }
+
+                case "OrderPizza":
+                    {
+                        var rand = new Random();
+                        resultString = Greetings[rand.Next(0, Greetings.Length)];
+                        break;
+                    }
+
                 default:
                     {
                         resultString = "Sorry, I am not getting you...";
@@ -46,6 +61,7 @@ namespace Programming.Bot.Dialogs
                    
             }
             await context.PostAsync(resultString);
+
             context.Wait(MessageReceivedAsync);
         }
 
@@ -53,9 +69,10 @@ namespace Programming.Bot.Dialogs
         {
             query = Uri.EscapeDataString(query);
             var data = new QueryResult();
+
             //TODO url
-            var requestUri = "https://" + query;
-            //var requestUri = "https://api.projectoxford.ai/luis/v2.0/apps/5c31bde1-79e0-4dbe-b1e7-7b046fc37f13?subscription-key=b118918f818b4cc6acc9e1e87bbdb74b&q=" + query;
+            var requestUri = string.Empty;
+            
             var msg = await _httpClient.GetAsync(requestUri);
 
             if (msg.IsSuccessStatusCode)
