@@ -101,6 +101,15 @@ namespace Programming.Bot.Dialogs
                         return;
                     }
 
+                    case "meme":
+                    {
+                        var reply = context.MakeMessage();
+
+                        await context.PostAsync(reply);
+                        return;
+                    }
+
+
                     case "OrderPizza":
                     {
                             _pizzaFlow = true;
@@ -148,6 +157,7 @@ namespace Programming.Bot.Dialogs
             //TODO url
             var requestUri = string.Empty;
             
+
             var msg = await _httpClient.GetAsync(requestUri);
 
             if (msg.IsSuccessStatusCode)
