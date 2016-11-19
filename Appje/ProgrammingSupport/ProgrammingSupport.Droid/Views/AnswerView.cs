@@ -31,6 +31,8 @@ namespace ProgrammingSupport.Droid.Views
 
             (ViewModel as AnswerViewModel).AnswerUpdated += OnAnswerUpdated;
 
+            (ViewModel as AnswerViewModel).Answer = (ViewModel as AnswerViewModel).Answer;
+            (ViewModel as AnswerViewModel).Question = (ViewModel as AnswerViewModel).Question;
         }
 
         protected override void OnActivityResult(int requestCode, Result resultVal, Intent data)
@@ -40,12 +42,14 @@ namespace ProgrammingSupport.Droid.Views
 
         private void OnAnswerUpdated()
         {
-            Speak((ViewModel as AnswerViewModel).Answer);
+            var toSay = (ViewModel as AnswerViewModel).Answer;
+            if(toSay?.Length > 0)
+                Speak(toSay);
         }
 
         public void Speak(string text)
         {
-            toSpeak = text;
+            toSpeak = $"Helooo, this is tech support speaking, let me answer your question: {text}";
             if (speaker == null)
             {
                 speaker = new TextToSpeech(this, this);
@@ -70,9 +74,9 @@ namespace ProgrammingSupport.Droid.Views
 
         }
 
-        public  override void OnBackPressed()
+        public override void OnBackPressed()
         {
-            //speaker.Stop();
+            speaker?.Stop();
             base.OnBackPressed();
         }
     }

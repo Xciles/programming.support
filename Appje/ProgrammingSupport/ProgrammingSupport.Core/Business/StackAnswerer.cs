@@ -26,13 +26,9 @@ namespace ProgrammingSupport.Core.Business
                     {
                         var response = JsonConvert.DeserializeObject<StackResponse>(await result.Content.ReadAsStringAsync());
 
-                        if (response.StrippedBody == "NoResults!")
-                        {
-                            return "I am sorry, I could not find " + question + ". Would you like a pizza?";
-                        }
                         return response.StrippedBody;
                     }
-                    return "I am sorry, I could not find " + question + ". Would you like a pizza?";
+                    return "NoResults!";
                 }                
             }
             catch(Exception ex)

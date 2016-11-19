@@ -16,9 +16,11 @@ namespace ProgrammingSupport.Core.ViewModels
 
         public Action AnswerUpdated;
 
-		public void Init(string question)
+		public void Init(string answer, string question)
 		{
-			Question = question;
+			Answer = answer;
+			Question = _question;
+		    InvokeAnswerUpdated();
 		}
 
         public void InvokeAnswerUpdated()
@@ -36,9 +38,6 @@ namespace ProgrammingSupport.Core.ViewModels
             set
             {
                 SetProperty(ref _question, value);
-
-                if (_question?.Length > 4)
-                    GetAnswer(_question).ConfigureAwait(false);
             }
         }
 
