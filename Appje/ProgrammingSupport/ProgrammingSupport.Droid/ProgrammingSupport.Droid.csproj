@@ -107,7 +107,12 @@
     <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\mipmap-hdpi\bubble.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Content\txtImSorry.png" />
+    <Content Include="Content\txtPizza.png" />
+    <AndroidResource Include="Resources\drawable\txtImSorry.png" />
+    <AndroidResource Include="Resources\drawable\txtPizza.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProgrammingSupport.Core\ProgrammingSupport.Core.csproj">
       <Project>{1630CFE1-D022-4BAF-8113-AF89CCBA7A4C}</Project>

@@ -20,6 +20,7 @@ namespace ProgrammingSupport.Droid.Views
     {
 		private WebView _webView;
 		private RelativeLayout _click;
+        private ImageView _text;
 		private bool isRecording = false;
 		private readonly int VOICE = 10;
 		private TextToSpeech speaker;
@@ -59,6 +60,7 @@ namespace ProgrammingSupport.Droid.Views
 			else
 				_click.Click += delegate
 				{
+                    _text.Visibility = ViewStates.Invisible;
 					isRecording = !isRecording;
 					if (isRecording)
 					{
@@ -105,7 +107,13 @@ namespace ProgrammingSupport.Droid.Views
 						var ditIsResult = textInput;
 						if(!pizza)
 						{
-							Speak("I am sorry, I could not find " + ditIsResult + ". Would you like a pizza?");
+                            Random rnd = new Random();
+                            if (rnd.Next(2) == 0)
+                                _text.SetImageResource(Resource.Drawable.txtImSorry);
+                            else
+                                _text.SetImageResource(Resource.Drawable.txtPizza);
+                            _text.Visibility = ViewStates.Visible;
+                            Speak("I am sorry, I could not find " + ditIsResult + ". Would you like a pizza?");
 							pizza = true;
 							await Task.Delay(5000).ConfigureAwait(false);
 							StartActivityForResult(_voiceIntent, VOICE);
