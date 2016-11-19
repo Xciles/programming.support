@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Net.Http;
@@ -9,6 +10,7 @@ using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 using Programming.Bot.Business;
 using Programming.Bot.Domain;
+using Xkcd;
 
 namespace Programming.Bot.Dialogs
 {
@@ -70,6 +72,39 @@ namespace Programming.Bot.Dialogs
                         resultString = Greetings[rand.Next(0, Greetings.Length)];
                         context.Wait(MessageReceivedAsync);
                         break;
+                    }
+
+                    case "xkcd":
+                    {
+                        var reply = context.MakeMessage();
+                        if (luisResult.entities.Any())
+                        {
+                            var imgString = await XkcdLib.GetComic(luisResult.entities[0].entity);
+                            reply.Attachments = new List<Attachment>
+                            {
+                                new Attachment()
+                                {
+                                    ContentUrl = imgString,
+                                    ContentType = "image/jpg",
+                                    Name = "escher_wristband.jpg"
+                                }
+                            };
+                        }
+                        else
+                        {
+                                var imgString = await XkcdLib.GetRandomComic();
+                                reply.Attachments = new List<Attachment>
+                            {
+                                new Attachment()
+                                {
+                                    ContentUrl = imgString,
+                                    ContentType = "image/jpg",
+                                    Name = "escher_wristband.jpg"
+                                }
+                            };
+                        }
+                        await context.PostAsync(reply);
+                        return;
                     }
 
                     case "OrderPizza":
