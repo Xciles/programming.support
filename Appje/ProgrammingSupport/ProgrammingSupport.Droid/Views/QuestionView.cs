@@ -227,7 +227,8 @@ namespace ProgrammingSupport.Droid.Views
 
 			_beaconManager.SetRangeNotifier(_rangeNotifier);
 
-			_tagRegion = new AltBeaconOrg.BoundBeacon.Region("Id", Identifier.Parse("EBEFD083-70A2-47C8-9837-E7B5634DF524"), null, null);
+			//_tagRegion = new AltBeaconOrg.BoundBeacon.Region("Id", Identifier.Parse("EBEFD083-70A2-47C8-9837-E7B5634DF524"), null, null);
+			_tagRegion = new AltBeaconOrg.BoundBeacon.Region("Id", null, null, null);
 
 			_beaconManager.StartRangingBeaconsInRegion(_tagRegion);
 		}
