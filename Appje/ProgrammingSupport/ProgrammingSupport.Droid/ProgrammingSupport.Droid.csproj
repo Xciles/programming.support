@@ -121,6 +121,7 @@
     <AndroidResource Include="Resources\drawable\txtSpeakUp.png" />
     <AndroidResource Include="Resources\drawable\txtWhyAsk.png" />
     <AndroidResource Include="Resources\drawable\txtSkypeBot.png" />
+    <AndroidResource Include="Resources\drawable\txtIgnorant.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProgrammingSupport.Core\ProgrammingSupport.Core.csproj">
