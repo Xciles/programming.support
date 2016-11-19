@@ -44,6 +44,17 @@ namespace ProgrammingSupport.Core.ViewModels
                 });
             }
         }
+
+        public ICommand GoToKyleCommand
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    ShowViewModel<FirstViewModel>();
+                });
+            }
+        }
     }
 
     public enum EActionType

@@ -68,6 +68,9 @@
       <HintPath>..\packages\MvvmCross.Binding.4.3.0\lib\MonoAndroid\MvvmCross.Localization.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android.Export" />
+    <Reference Include="AndroidAltBeaconLibrary">
+      <HintPath>..\packages\AndroidAltBeaconLibrary.2.7.0\lib\AndroidAltBeaconLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -81,6 +84,7 @@
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Views\QuestionView.cs" />
+    <Compile Include="Utils\RangeNotifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -112,6 +116,11 @@
     <Content Include="Content\txtPizza.png" />
     <AndroidResource Include="Resources\drawable\txtImSorry.png" />
     <AndroidResource Include="Resources\drawable\txtPizza.png" />
+    <AndroidResource Include="Resources\drawable\txtPizzaNo.png" />
+    <AndroidResource Include="Resources\drawable\txtPizzaYes.png" />
+    <AndroidResource Include="Resources\drawable\txtSpeakUp.png" />
+    <AndroidResource Include="Resources\drawable\txtWhyAsk.png" />
+    <AndroidResource Include="Resources\drawable\txtSkypeBot.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProgrammingSupport.Core\ProgrammingSupport.Core.csproj">
@@ -122,5 +131,6 @@
   <ItemGroup>
     <AndroidAsset Include="Content\southparkidle.gif" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

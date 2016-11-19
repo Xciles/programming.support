@@ -38,10 +38,19 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:text="Ask Kyle Brovlofski"
+        android:layout_above="@+id/skypeButton"
+        android:id="@+id/kyleButton"
+        android:background="#3FBF07"
+        local:MvxBind="Click GoToKyleCommand" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:text="Check out our Skype Bot"
-        android:background="#12A5F4"
         android:layout_alignParentBottom="true"
         android:id="@+id/skypeButton"
         android:visibility="invisible"
+        android:background="#12A5F4"
         local:MvxBind="Click GoToSkypeCommand" />
 </RelativeLayout>
