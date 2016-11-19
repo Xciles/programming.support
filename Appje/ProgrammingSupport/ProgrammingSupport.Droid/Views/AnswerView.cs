@@ -54,7 +54,7 @@ namespace ProgrammingSupport.Droid.Views
             {
                 speaker = new TextToSpeech(this, this);
                 speaker.SetPitch(1.5f);
-                speaker.SetSpeechRate(1.5f);
+                speaker.SetSpeechRate(2.0f);
                 speaker.SetLanguage(Java.Util.Locale.English);
             }
             else
