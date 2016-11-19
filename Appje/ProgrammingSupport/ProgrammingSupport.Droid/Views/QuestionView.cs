@@ -29,6 +29,8 @@ namespace ProgrammingSupport.Droid.Views
 		private List<Beacon> _beacons;
 		private BeaconManager _beaconManager;
 		AltBeaconOrg.BoundBeacon.Region _tagRegion, _emptyRegion;
+		private double distanceClosestCSharp = 9999999d;
+		private double distanceClosestJava = 9999999d;
 
 		public QuestionView()
 		{
@@ -175,13 +177,21 @@ namespace ProgrammingSupport.Droid.Views
 						distance = distanceOfBeacon;
 						if(minor == "1" && major == "1" && uuid == "EBEFD083-70A2-47C8-9837-E7B5634DF524") // CSharp
 						{
-							BeaconStats.ClosestArea = EArea.CSharp;
 							if (distance < 3)
+							{
+								BeaconStats.ClosestArea = EArea.CSharp;
 								BeaconStats.ProximityToClosestArea = EProximity.OnTop;
-							else if(distance >= 3 && distance < 10)
+							}
+							else if (distance >= 3 && distance < 10)
+							{
+								BeaconStats.ClosestArea = EArea.CSharp;
 								BeaconStats.ProximityToClosestArea = EProximity.Close;
+							}
 							else if (distance >= 10 && distance < 20)
+							{
+								BeaconStats.ClosestArea = EArea.CSharp;
 								BeaconStats.ProximityToClosestArea = EProximity.Medium;
+							}
 							else if (distance >= 20 && distance < 50)
 								BeaconStats.ProximityToClosestArea = EProximity.Far;
 							else
@@ -189,22 +199,18 @@ namespace ProgrammingSupport.Droid.Views
 						}
 						else // Java
 						{
-							BeaconStats.ClosestArea = EArea.Java;
-							if (distance < 3)
+							if (distance < 1)
+							{
+								BeaconStats.ClosestArea = EArea.Java;
 								BeaconStats.ProximityToClosestArea = EProximity.OnTop;
-							else if (distance >= 3 && distance < 10)
-								BeaconStats.ProximityToClosestArea = EProximity.Close;
-							else if (distance >= 10 && distance < 20)
-								BeaconStats.ProximityToClosestArea = EProximity.Medium;
-							else if (distance >= 20 && distance < 50)
-								BeaconStats.ProximityToClosestArea = EProximity.Far;
-							else
-								BeaconStats.ProximityToClosestArea = EProximity.Unknown;
+							}
 						}
 					}
 				}
 			}
 		}
+
+
 
 		private void StartBeaconManager()
 		{
@@ -227,9 +233,11 @@ namespace ProgrammingSupport.Droid.Views
 
 			_beaconManager.SetRangeNotifier(_rangeNotifier);
 
-			_tagRegion = new AltBeaconOrg.BoundBeacon.Region("Id", Identifier.Parse("EBEFD083-70A2-47C8-9837-E7B5634DF524"), null, null);
+			//_tagRegion = new AltBeaconOrg.BoundBeacon.Region("Id", Identifier.Parse("EBEFD083-70A2-47C8-9837-E7B5634DF524"), null, null);
+			_emptyRegion = new AltBeaconOrg.BoundBeacon.Region("Id", null, null, null);
 
-			_beaconManager.StartRangingBeaconsInRegion(_tagRegion);
+			//_beaconManager.StartRangingBeaconsInRegion(_tagRegion);
+			_beaconManager.StartRangingBeaconsInRegion(_emptyRegion);
 		}
 	}
 }
