@@ -18,7 +18,7 @@ namespace Programming.Bot.Business
         private const string PizzaOrderUri = "https://hackathon.dominos.cloud/order/place";
         private const string PizzaOrderStatusUri = "https://hackathon.dominos.cloud/order/status";
 
-       
+        private const string PizzaStoreNumber = "1111";
         private const string PizzaVendorId = "1234";
  
         public static IList<PizzaResult> Pizzases;
@@ -86,12 +86,31 @@ namespace Programming.Bot.Business
 
 
 
-        public static async Task PlaceOrder()
+        public static async Task<OrderResult> PlaceOrder(bool payedInCash,string name, string phoneNumber, Product2[] products)
         {
             await InitTask;
 
-            // doe eens orderen
+            OrderRequest order = new OrderRequest()
+            {
+                CountryCode = "nl",IsCashPayment = payedInCash,
+                Language = "NL-nl",
+                Name = name,
+                OrderDate = DateTime.Now,
+                StoreNo = PizzaStoreNumber,
+                VendorId = PizzaVendorId,
+                Products = products,
+            };
 
+            var msg = await HttpClient.PostAsJsonAsync(PizzaOrderUri, order);
+            if (!msg.IsSuccessStatusCode)
+            {
+                throw new Exception("Pizza order  API call failed");
+            }
+
+            var jsonDataResponse = await msg.Content.ReadAsStringAsync();
+
+            var data = JsonConvert.DeserializeObject<OrderResult>(jsonDataResponse);
+            return data;
         }
 
         public static async Task<OrderStatusResult> GetOrderStatus(string orderstatus)

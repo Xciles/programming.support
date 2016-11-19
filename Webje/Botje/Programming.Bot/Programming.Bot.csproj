@@ -123,6 +123,8 @@
     <Compile Include="Business\StackOverflow.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\SupportDialog.cs" />
+    <Compile Include="Domain\Dominos\OrderRequest.cs" />
+    <Compile Include="Domain\Dominos\OrderResult.cs" />
     <Compile Include="Domain\Dominos\OrderStatusRequest.cs" />
     <Compile Include="Domain\Entity.cs" />
     <Compile Include="Domain\Intent.cs" />
