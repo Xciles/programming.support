@@ -77,40 +77,32 @@ namespace Programming.Bot.Dialogs
                     case "xkcd":
                     {
                         var reply = context.MakeMessage();
+                        var imgString = string.Empty;
                         if (luisResult.entities.Any())
                         {
-                            var imgString = await XkcdLib.GetComic(luisResult.entities[0].entity);
-                            reply.Attachments = new List<Attachment>
-                            {
-                                new Attachment()
-                                {
-                                    ContentUrl = imgString,
-                                    ContentType = "image/jpg",
-                                    Name = "escher_wristband.jpg"
-                                }
-                            };
+                            imgString = await XkcdLib.GetComic(luisResult.entities[0].entity);
                         }
                         else
                         {
-                                var imgString = await XkcdLib.GetRandomComic();
-                                reply.Attachments = new List<Attachment>
-                            {
-                                new Attachment()
-                                {
-                                    ContentUrl = imgString,
-                                    ContentType = "image/jpg",
-                                    Name = "escher_wristband.jpg"
-                                }
-                            };
+                           imgString = await XkcdLib.GetRandomComic();
                         }
+
+                        reply.Attachments = new List<Attachment>
+                        {
+                            new Attachment()
+                            {
+                                ContentUrl = imgString,
+                                ContentType = "image/jpg",
+                                Name = $"{Guid.NewGuid()}.jpg"
+                            }
+                        };
+
                         await context.PostAsync(reply);
                         return;
                     }
 
                     case "OrderPizza":
                     {
-                            //await context.PostAsync($"Hmm would you like to order pizza?");
-
                             _pizzaFlow = true;
                             PromptDialog.Text(context, Resume, "Hmm would you like to order pizza?", "Didn't get that!");
                         
@@ -156,7 +148,6 @@ namespace Programming.Bot.Dialogs
             //TODO url
             var requestUri = string.Empty;
             
-
             var msg = await _httpClient.GetAsync(requestUri);
 
             if (msg.IsSuccessStatusCode)
