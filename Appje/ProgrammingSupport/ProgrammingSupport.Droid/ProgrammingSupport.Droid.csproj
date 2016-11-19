@@ -112,6 +112,9 @@
     <Content Include="Content\txtPizza.png" />
     <AndroidResource Include="Resources\drawable\txtImSorry.png" />
     <AndroidResource Include="Resources\drawable\txtPizza.png" />
+    <AndroidResource Include="Resources\drawable\txtPizzaNo.png" />
+    <AndroidResource Include="Resources\drawable\txtPizzaYes.png" />
+    <AndroidResource Include="Resources\drawable\txtSpeakUp.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProgrammingSupport.Core\ProgrammingSupport.Core.csproj">

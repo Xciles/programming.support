@@ -40,8 +40,9 @@ namespace ProgrammingSupport.Droid.Views
 
 			_webView = FindViewById<WebView>(Resource.Id.webview);
 			_click = FindViewById<RelativeLayout>(Resource.Id.clickLayout);
+            _text = FindViewById<ImageView>(Resource.Id.txtBubble);
 
-			string fileName = "file:///android_asset/Content/southparkidle.gif";
+            string fileName = "file:///android_asset/Content/southparkidle.gif";
 			_webView.LoadDataWithBaseURL(null, "<html><body style=\"width: 100%; height:100%; margin:0px; padding:0px;\">\n<img style=\"width: 100%; height:100%; margin:0px; padding:0px;\" id=\"selector\" src=\"" + fileName + "\"></body></html>", "text/html", "utf-8", null);
 			//_webView.LoadDataWithBaseURL(null, "<html><body style=\"width: 100%; height:100%; margin:0px; padding:0px;\">\n<img style=\"width: 100%; height:100%; margin:0px; padding:0px;\" id=\"selector\" src=\"https://media.giphy.com/media/1iUlZloL4DiH8HL2/giphy.gif\"></body></html>", "text/html", "utf-8", null);
 			_webView.Settings.JavaScriptEnabled = true;
@@ -124,16 +125,22 @@ namespace ProgrammingSupport.Droid.Views
 							{
 								Speak("I will get you a pepperoni pizza, buddy!");
 								pizza = false;
-							}
+                                _text.SetImageResource(Resource.Drawable.txtPizzaYes);
+                                _text.Visibility = ViewStates.Visible;
+                            }
 							else if (ditIsResult.ToLower().Contains("no"))
 							{
-								Speak("More for me, asshole!");
+								Speak("More for me, you stupid asshole!");
 								pizza = false;
-							}
+                                _text.SetImageResource(Resource.Drawable.txtPizzaNo);
+                                _text.Visibility = ViewStates.Visible;
+                            }
 							else
 							{
-								Speak("Speak up, mumbling idiot!");
-							}
+								Speak("Speak up, you mumbling idiot!");
+                                _text.SetImageResource(Resource.Drawable.txtSpeakUp);
+                                _text.Visibility = ViewStates.Visible;
+                            }
 						}
 					}
 					else

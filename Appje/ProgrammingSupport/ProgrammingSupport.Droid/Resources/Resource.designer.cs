@@ -95,6 +95,15 @@ namespace ProgrammingSupport.Droid
 			// aapt resource value: 0x7f020002
 			public const int txtPizza = 2130837506;
 			
+			// aapt resource value: 0x7f020003
+			public const int txtPizzaNo = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public const int txtPizzaYes = 2130837508;
+			
+			// aapt resource value: 0x7f020005
+			public const int txtSpeakUp = 2130837509;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -119,6 +128,9 @@ namespace ProgrammingSupport.Droid
 			
 			// aapt resource value: 0x7f050004
 			public const int clickLayout = 2131034116;
+			
+			// aapt resource value: 0x7f050007
+			public const int kyleButton = 2131034119;
 			
 			// aapt resource value: 0x7f050006
 			public const int skypeButton = 2131034118;

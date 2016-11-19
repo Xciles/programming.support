@@ -72,7 +72,7 @@ namespace ProgrammingSupport.Droid.Views
 
         public  override void OnBackPressed()
         {
-            speaker.Stop();
+            //speaker.Stop();
             base.OnBackPressed();
         }
     }

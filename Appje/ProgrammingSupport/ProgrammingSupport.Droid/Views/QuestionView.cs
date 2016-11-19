@@ -59,7 +59,8 @@ namespace ProgrammingSupport.Droid.Views
 		{
             var skypeButton = FindViewById<Button>(Resource.Id.skypeButton);
             var answerButton = FindViewById<Button>(Resource.Id.answerButton);
-
+            var kyleButton = FindViewById<Button>(Resource.Id.kyleButton);
+            
 
             if (requestCode == VOICE)
 			{
@@ -81,7 +82,7 @@ namespace ProgrammingSupport.Droid.Views
 					        skypeButton.Visibility = ViewStates.Visible;
 
 					        answerButton.Visibility = ViewStates.Gone;
-
+                            
 					        Speak("Do you want to see our Skype bot?");
                         }
 					    else
