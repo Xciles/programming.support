@@ -174,11 +174,17 @@ namespace Programming.Bot.Dialogs
                 }
             };
             var client = new HttpClient();
-            var msg = await client.PostAsJsonAsync(PizzaOrderUri, order);
-            if (!msg.IsSuccessStatusCode)
+            try
             {
-                var content = await msg.Content.ReadAsStringAsync();
-                //throw new Exception("Pizza order  API call failed");
+                var msg = await client.PostAsJsonAsync(PizzaOrderUri, order);
+                if (!msg.IsSuccessStatusCode)
+                {
+                    var content = await msg.Content.ReadAsStringAsync();
+                    //throw new Exception("Pizza order  API call failed");
+                }
+            }
+            catch (Exception e)
+            {
             }
 
            // var jsonDataResponse = await msg.Content.ReadAsStringAsync();
